@@ -63,7 +63,11 @@ class MovieScheduleParser(object):
 
         for item in schedule_table:
             # Get title
-            title = item.find('div', class_='program')['title']
+            try:
+                title = item.find('div', class_='program')['title']
+            except KeyError:
+                # Remove span tag
+                title = item.find('div', class_='program').text.strip()
 
             # Get start time and end time.
             start_time_text = item.find('em').text.strip()
@@ -89,4 +93,4 @@ class MovieScheduleParser(object):
 
 if __name__ == "__main__":
     # CJ E&M Channel Test.
-    print (MovieScheduleParser.get_cj_channels("http://ocn.tving.com/ocn/schedule?startDate=20170224"))
+    print (MovieScheduleParser.get_cj_channels("http://catchon.tving.com/catchon/schedule2?startDate=20170228"))
