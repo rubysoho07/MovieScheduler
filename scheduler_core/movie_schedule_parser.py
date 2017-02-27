@@ -2,7 +2,7 @@
     Movie Schedule Parser.
     2017.02.21 Yungon Park
 """
-import datetime
+from django.utils import timezone
 import requests
 from bs4 import BeautifulSoup
 
@@ -12,6 +12,20 @@ class MovieScheduleParser(object):
     # __init__ method
     def __init__(self):
         pass
+
+    # Get rating for CJ E&M channels.
+    @staticmethod
+    def get_cj_channel_ratings(rating):
+        if rating == "age19":
+            return 19
+        elif rating == "age15":
+            return 15
+        elif rating == "age12":
+            return 12
+        elif rating == "age7":
+            return 7
+        else:
+            return 0
 
     # Get original data from web.
     @staticmethod
@@ -38,8 +52,8 @@ class MovieScheduleParser(object):
         if "".join(date_split) != url[-8:]:
             return None
 
-        # Convert to datetime.datetime type.
-        schedule_date = datetime.datetime(int(date_split[0]), int(date_split[1]), int(date_split[2]))
+        # Convert to timezone.datetime type.
+        schedule_date = timezone.datetime(int(date_split[0]), int(date_split[1]), int(date_split[2]))
 
         # Get table.
         schedule_table = schedule.find('tbody').find_all('tr')
@@ -56,13 +70,15 @@ class MovieScheduleParser(object):
             duration = item.find('td', class_='runningTime').text
 
             start_time_split = start_time_text.split(':')
-            start_time = schedule_date + datetime.timedelta(hours=int(start_time_split[0]),
+            start_time = schedule_date + timezone.timedelta(hours=int(start_time_split[0]),
                                                             minutes=int(start_time_split[1]))
-            end_time = start_time + datetime.timedelta(minutes=int(duration))
+            # Convert naive time to timezone aware.
+            start_time = timezone.make_aware(start_time, timezone.get_current_timezone())
+            end_time = start_time + timezone.timedelta(minutes=int(duration))
 
             # if end time is after the midnight, plus 1 day to schedule_date.
             if end_time.day != schedule_date.day:
-                schedule_date = schedule_date + datetime.timedelta(days=1)
+                schedule_date = schedule_date + timezone.timedelta(days=1)
 
             # Get ratings.
             rating = item.find('td', class_='rating').find('span')['class']
