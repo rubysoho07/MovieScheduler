@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from scheduler_core.views import MovieScheduleListView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^table/$', MovieScheduleListView.as_view(), name='table')
 ]
