@@ -73,4 +73,4 @@ class MovieScheduleParser(object):
 
 if __name__ == "__main__":
     # CJ E&M Channel Test.
-    print MovieScheduleParser.get_cj_channels("http://ocn.tving.com/ocn/schedule?startDate=20170224")
+    print (MovieScheduleParser.get_cj_channels("http://ocn.tving.com/ocn/schedule?startDate=20170224"))
