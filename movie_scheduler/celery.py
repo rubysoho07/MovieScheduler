@@ -30,22 +30,22 @@ app.conf.beat_schedule = {
     },
     'get_superaction_schedule': {
         'task': 'scheduler_core.tasks.save_cj_channel_schedule',
-        'schedule': crontab(minute=25, hour=21),
+        'schedule': crontab(minute=30, hour=0),
         'args': ("SuperAction", "http://superaction.tving.com/superaction/schedule?startDate="),
     },
     'get_chcgv_schedule': {
         'task': 'scheduler_core.tasks.save_cj_channel_schedule',
-        'schedule': crontab(minute=25, hour=21),
+        'schedule': crontab(minute=30, hour=0),
         'args': ("Ch.CGV", "http://chcgv.tving.com/chcgv/schedule?startDate="),
     },
     'get_catchon1_schedule': {
         'task': 'scheduler_core.tasks.save_cj_channel_schedule',
-        'schedule': crontab(minute=25, hour=21),
+        'schedule': crontab(minute=30, hour=0),
         'args': ("CatchOn1", "http://catchon.tving.com/catchon/schedule1?startDate="),
     },
     'get_catchon2_schedule': {
         'task': 'scheduler_core.tasks.save_cj_channel_schedule',
-        'schedule': crontab(minute=56, hour=21),
+        'schedule': crontab(minute=30, hour=0),
         'args': ("CatchOn2", "http://catchon.tving.com/catchon/schedule2?startDate="),
     },
 }
