@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Scheduler | {{ day }}</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        table th, table td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<!-- Navigation of date. -->
+<p>
+    {% if previous_day %}
+        Previous: {{ previous_day }}
+    {% endif %}
+    {{ day }}
+    {% if next_day %}
+        Next: {{ next_day }}
+    {% endif %}
+</p>
+<!-- End of navigation of date. -->
+<!-- Schedule list. -->
+<table>
+    <thead>
+        <tr>
+        {% for bc in bc_list %}
+            <th>{{ bc.bc_name }}</th>
+        {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for hour in programs_hour %}
+        <tr>
+            {% for item in hour %}
+                <td>
+                    {% for i in item %}
+                        <p>
+                        {{ i.start_time.hour }}:{{ i.start_time.minute }} | {{ i.title }} |
+                        {% if i.ratings == 0 %}
+                            All
+                        {% else %}
+                            {{ i.ratings }}
+                        {% endif %}
+                        </p>
+                    {% endfor %}
+                </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<!-- End of schedule list. -->
+</body>
+</html>
