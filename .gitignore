@@ -2,4 +2,4 @@
 *.pyc
 .idea/
 db.sqlite3
-static/
+celerybeat-schedule
