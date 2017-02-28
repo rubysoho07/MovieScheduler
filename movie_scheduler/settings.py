@@ -108,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'ko-kr'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Asia/Seoul'
 
@@ -124,7 +124,10 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+if DEBUG:
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Celery
 CELERY_IMPORTS = ("scheduler_core.tasks",)

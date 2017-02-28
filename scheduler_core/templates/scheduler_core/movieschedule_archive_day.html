@@ -1,33 +1,32 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>Movie Scheduler | {{ day }}</title>
-    <style>
-        table {
-            border-collapse: collapse;
-        }
-        table th, table td {
-            border: 1px solid black;
-        }
-    </style>
-</head>
-<body>
+{% extends 'scheduler_core/page_base.html' %}
+
+{% block title %}
+Movie Scheduler | {{ day }}
+{% endblock %}
+
+{% block content %}
 <!-- Navigation of date. -->
-<p>
+<div class="date-navigation">
+    <div class="col-md-4 col-sm-4 col-xs-4">
     {% if previous_day %}
-        Previous: {{ previous_day }}
+       <a href="{% url 'day' previous_day|date:'Y' previous_day|date:'b' previous_day|date:'d' %}"><span>&laquo;</span> {{ previous_day }}</a>
     {% endif %}
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-4" style="font-weight: bold;">
     {{ day }}
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-4">
     {% if next_day %}
-        Next: {{ next_day }}
+        <a href="{% url 'day' next_day|date:'Y' next_day|date:'b' next_day|date:'d' %}">{{ next_day }} <span>&raquo;</span></a>
     {% endif %}
-</p>
+    </div>
+</div>
 <!-- End of navigation of date. -->
 <!-- Schedule list. -->
 <table>
     <thead>
         <tr>
+            <th>H</th>
         {% for bc in bc_list %}
             <th>{{ bc.bc_name }}</th>
         {% endfor %}
@@ -36,15 +35,19 @@
     <tbody>
         {% for hour in programs_hour %}
         <tr>
-            {% for item in hour %}
-                <td>
+            <td class="hour">{{ hour.hour }}</td>
+            {% for item in hour.programs_list %}
+                <td class="schedule">
                     {% for i in item %}
                         <p>
-                        {{ i.start_time.hour }}:{{ i.start_time.minute }} | {{ i.title }} |
+                            <span class="time">{{ i.start_time.minute }}</span>&nbsp;
+                            <span class="title">{{ i.title }}</span>&nbsp;
                         {% if i.ratings == 0 %}
-                            All
+                            <span class="rating-all">All</span>
+                        {% elif i.ratings == 19 %}
+                            <span class="rating-adult">{{ i.ratings }}</span>
                         {% else %}
-                            {{ i.ratings }}
+                            <span class="rating">{{ i.ratings }}</span>
                         {% endif %}
                         </p>
                     {% endfor %}
@@ -55,5 +58,7 @@
     </tbody>
 </table>
 <!-- End of schedule list. -->
-</body>
-</html>
+<div class="notice">
+    방송시간은 방송사의 사정으로 변경될 수 있습니다. 정확한 정보는 각 방송사 홈페이지를 참고해 주세요.
+</div>
+{% endblock %}
