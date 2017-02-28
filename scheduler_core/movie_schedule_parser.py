@@ -67,7 +67,9 @@ class MovieScheduleParser(object):
                 title = item.find('div', class_='program')['title']
             except KeyError:
                 # Remove span tag
-                title = item.find('div', class_='program').text.strip()
+                title = item.find('div', class_='program').text
+
+            title = title.strip()
 
             # Get start time and end time.
             start_time_text = item.find('em').text.strip()
