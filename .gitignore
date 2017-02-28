@@ -3,4 +3,5 @@
 .idea/
 db.sqlite3
 celerybeat-schedule
-static/admin/
+/static/
+/staticfiles/
