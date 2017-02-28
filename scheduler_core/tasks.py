@@ -25,7 +25,6 @@ def save_cj_channel_schedule(channel_name, url_pattern):
 
     # Get schedule with movie_schedule_parser
     date_str = timezone.datetime.strftime(last_date.latest_update, "%Y%m%d")
-    print (date_str)
     schedules = MovieScheduleParser.get_cj_channels(url_pattern + date_str)
     while schedules is not None:
 

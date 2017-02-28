@@ -47,7 +47,7 @@ class MovieScheduleParser(object):
         # Get date.
         date_text = schedule.find('em').text[:-4].strip()
 
-        # If date is different from argument day, return None.
+        # If date is different from the day of argument, return None.
         date_split = date_text.split(".")
         if "".join(date_split) != url[-8:]:
             return None
@@ -61,6 +61,7 @@ class MovieScheduleParser(object):
         # Make schedule list.
         schedule_list = []
 
+        last_hour = 0
         for item in schedule_table:
             # Get title
             try:
@@ -82,13 +83,24 @@ class MovieScheduleParser(object):
             start_time = timezone.make_aware(start_time, timezone.get_current_timezone())
             end_time = start_time + timezone.timedelta(minutes=int(duration))
 
-            # if end time is after the midnight, plus 1 day to schedule_date.
-            if end_time.day != schedule_date.day:
+            if start_time.hour < last_hour:
+                # Check start_time to add next day's schedule.
+                start_time = start_time + timezone.timedelta(days=1)
+                end_time = end_time + timezone.timedelta(days=1)
                 schedule_date = schedule_date + timezone.timedelta(days=1)
+            elif end_time.day != schedule_date.day:
+                # if end time is after the midnight, plus 1 day to schedule_date.
+                schedule_date = schedule_date + timezone.timedelta(days=1)
+
+            # Save hour field of last schedule.
+            last_hour = end_time.hour
 
             # Get ratings.
             rating = item.find('td', class_='rating').find('span')['class']
-            schedule_list.append({"title": title, "start_time": start_time, "end_time": end_time, "rating": rating[0]})
+            schedule_list.append({"title": title,
+                                  "start_time": start_time,
+                                  "end_time": end_time,
+                                  "rating": rating[0]})
 
         # Return it.
         return schedule_list
