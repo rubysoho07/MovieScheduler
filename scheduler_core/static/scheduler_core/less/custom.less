@@ -1,0 +1,94 @@
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+@base-color: #FF8C00;
+@green-color: #08A000;
+@light-gray: #9C9C9C;
+@header-height: 50px;
+
+a {
+  color: @base-color;
+}
+
+a:hover {
+  color: @base-color - #222;
+}
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+table {
+  border-collapse: collapse;
+  vertical-align: middle;
+
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+  }
+
+  th, td.hour {
+    text-align: center;
+  }
+
+  th {
+    background-color: @base-color;
+    color: white;
+  }
+}
+
+.date-navigation {
+  height: @header-height;
+  text-align: center;
+  line-height: @header-height;
+}
+
+.goni-padding {
+  height: 30px;
+}
+
+.schedule {
+  font-size: 9pt;
+
+  .time {
+    color: @light-gray;
+    font-weight: bold;
+  }
+
+  .title {
+    font-weight: bold;
+  }
+
+  .rating {
+    color: @base-color;
+  }
+
+  .rating-adult {
+    color: red;
+  }
+
+  .rating-all {
+    color: @green-color;
+  }
+}
+
+.notice {
+  text-align: center;
+  line-height: @header-height;
+  height: @header-height;
+}
+
+.header {
+  background-color: @base-color;
+  height: @header-height;
+  line-height: @header-height;
+  color: white;
+  font-size: 20pt;
+  text-align: center;
+}
+
+.footer {
+  background-color: @base-color;
+  height: 30px;
+  line-height: 30px;
+  color: white;
+  text-align: center;
+}

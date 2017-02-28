@@ -1,0 +1,74 @@
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+a {
+  color: #FF8C00;
+}
+a:hover {
+  color: #dd6a00;
+}
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+table {
+  border-collapse: collapse;
+  vertical-align: middle;
+}
+table th,
+table td {
+  border: 1px solid black;
+  padding: 8px;
+}
+table th,
+table td.hour {
+  text-align: center;
+}
+table th {
+  background-color: #FF8C00;
+  color: white;
+}
+.date-navigation {
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+}
+.goni-padding {
+  height: 30px;
+}
+.schedule {
+  font-size: 9pt;
+}
+.schedule .time {
+  color: #9C9C9C;
+  font-weight: bold;
+}
+.schedule .title {
+  font-weight: bold;
+}
+.schedule .rating {
+  color: #FF8C00;
+}
+.schedule .rating-adult {
+  color: red;
+}
+.schedule .rating-all {
+  color: #08A000;
+}
+.notice {
+  text-align: center;
+  line-height: 50px;
+  height: 50px;
+}
+.header {
+  background-color: #FF8C00;
+  height: 50px;
+  line-height: 50px;
+  color: white;
+  font-size: 20pt;
+  text-align: center;
+}
+.footer {
+  background-color: #FF8C00;
+  height: 30px;
+  line-height: 30px;
+  color: white;
+  text-align: center;
+}
