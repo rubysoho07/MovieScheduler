@@ -17,7 +17,7 @@ class MovieSchedule(models.Model):
     end_time = models.DateTimeField()
     ratings = models.SmallIntegerField(blank=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.broadcast_company.bc_name + "/" + self.title
 
 
