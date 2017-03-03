@@ -8,6 +8,9 @@ from django.db import models
 class BroadcastCompany(models.Model):
     bc_name = models.CharField(max_length=100, unique=True)
 
+    def __unicode__(self):
+        return self.bc_name
+
 
 # Broadcasting schedule
 class MovieSchedule(models.Model):
@@ -25,3 +28,6 @@ class MovieSchedule(models.Model):
 class LatestUpdate(models.Model):
     broadcast_company = models.ForeignKey('BroadcastCompany', on_delete=models.CASCADE)
     latest_update = models.DateTimeField()
+
+    def __unicode__(self):
+        return self.broadcast_company + "/" + str(self.latest_update)
