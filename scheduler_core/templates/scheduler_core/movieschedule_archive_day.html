@@ -1,64 +1,101 @@
 {% extends 'scheduler_core/page_base.html' %}
+{% load staticfiles %}
 
 {% block title %}
 Movie Scheduler | {{ day }}
+{% endblock %}
+
+{% block additional_style %}
+<link rel="stylesheet" type="text/css" href="{% static 'scheduler_core/css/fixed_table_rc.css' %}" />
 {% endblock %}
 
 {% block content %}
 <!-- Navigation of date. -->
 <div class="date-navigation">
     <div class="col-md-4 col-sm-4 col-xs-4">
-    {% if previous_day %}
-       <a href="{% url 'day' previous_day|date:'Y' previous_day|date:'b' previous_day|date:'d' %}"><span>&laquo;</span> {{ previous_day }}</a>
-    {% endif %}
+        <div class="content">
+            {% if previous_day %}
+               <a href="{% url 'day' previous_day|date:'Y' previous_day|date:'b' previous_day|date:'d' %}"><span>&laquo;</span> {{ previous_day }}</a>
+            {% endif %}
+        </div>
     </div>
     <div class="col-md-4 col-sm-4 col-xs-4" style="font-weight: bold;">
-    {{ day }}
+        <div class="content">
+            {{ day }}
+        </div>
     </div>
     <div class="col-md-4 col-sm-4 col-xs-4">
-    {% if next_day %}
-        <a href="{% url 'day' next_day|date:'Y' next_day|date:'b' next_day|date:'d' %}">{{ next_day }} <span>&raquo;</span></a>
-    {% endif %}
+        <div class="content">
+            {% if next_day %}
+                <a href="{% url 'day' next_day|date:'Y' next_day|date:'b' next_day|date:'d' %}">{{ next_day }} <span>&raquo;</span></a>
+            {% endif %}
+        </div>
     </div>
 </div>
 <!-- End of navigation of date. -->
 <!-- Schedule list. -->
-<table>
-    <thead>
-        <tr>
-            <th>H</th>
-        {% for bc in bc_list %}
-            <th>{{ bc.bc_name }}</th>
-        {% endfor %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for hour in programs_hour %}
-        <tr>
-            <td class="hour">{{ hour.hour }}</td>
-            {% for item in hour.programs_list %}
-                <td class="schedule">
-                    {% for i in item %}
-                        <p>
-                            <span class="time">{{ i.start_time.minute }}</span>&nbsp;
-                            <span class="title">{{ i.title }}</span>&nbsp;
-                        {% if i.ratings == 0 %}
-                            <span class="rating-all">All</span>
-                        {% elif i.ratings == 19 %}
-                            <span class="rating-adult">{{ i.ratings }}</span>
-                        {% else %}
-                            <span class="rating">{{ i.ratings }}</span>
-                        {% endif %}
-                        </p>
-                    {% endfor %}
-                </td>
+<div class="schedules">
+    <table id="schedule_table">
+        <thead>
+            <tr>
+                <th>H</th>
+            {% for bc in bc_list %}
+                <th>{{ bc.bc_name }}</th>
             {% endfor %}
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hour in programs_hour %}
+            <tr>
+                <td class="hour">{{ hour.hour }}</td>
+                {% for item in hour.programs_list %}
+                    <td class="schedule">
+                        {% for i in item %}
+                            <p>
+                                <span class="time">{{ i.start_time.minute }}</span>&nbsp;
+                                <span class="title">{{ i.title }}</span>&nbsp;
+                            {% if i.ratings == 0 %}
+                                <span class="rating-all">All</span>
+                            {% elif i.ratings == 19 %}
+                                <span class="rating-adult">{{ i.ratings }}</span>
+                            {% else %}
+                                <span class="rating">{{ i.ratings }}</span>
+                            {% endif %}
+                            </p>
+                        {% endfor %}
+                    </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 <!-- End of schedule list. -->
 <div class="notice">
-    방송시간은 방송사의 사정으로 변경될 수 있습니다. 정확한 정보는 각 방송사 홈페이지를 참고해 주세요.
+    <div class="content">
+        방송시간은 방송사의 사정으로 변경될 수 있습니다. 정확한 정보는 각 방송사 홈페이지를 참고해 주세요.
+    </div>
 </div>
+{% endblock %}
+
+{% block additional_script %}
+<!-- Additional script to fix first column and row of the table. -->
+<script type="text/javascript" src="{% static 'scheduler_core/js/fixed_table_rc.js' %}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#schedule_table').fxdHdrCol({
+        fixedCols: 1,
+        width: "100%",
+        height: "100%",
+        colModal: [
+            { width: 30, align: 'center' },
+            { width: 210, align: 'center' },
+            { width: 210, align: 'center' },
+            { width: 210, align: 'center' },
+            { width: 210, align: 'center' },
+            { width: 210, align: 'center' }
+        ]
+    });
+});
+</script>
 {% endblock %}

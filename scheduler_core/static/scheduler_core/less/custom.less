@@ -8,12 +8,18 @@ a {
   color: @base-color;
 
   &:hover {
-    color: @base-color - #222;
+    color: @base-color - #333;
   }
 }
 
 body {
   font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* Make schedule table scrollable */
+.schedules {
+  overflow: hidden;
+  clear: both;
 }
 
 table {
@@ -37,8 +43,14 @@ table {
 
 .date-navigation {
   height: @header-height;
+  width: 100%;
   text-align: center;
-  line-height: @header-height;
+
+  .content {
+    vertical-align: middle;
+    font-size: 1em;
+    padding: 15px 0;
+  }
 }
 
 .goni-padding {
@@ -72,8 +84,10 @@ table {
 
 .notice {
   text-align: center;
-  line-height: @header-height;
-  height: @header-height;
+  height: 3%;
+  width: 100%;
+  float: left;
+  padding: 7px 0;
 }
 
 .header {

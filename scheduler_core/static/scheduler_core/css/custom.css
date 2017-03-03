@@ -3,10 +3,15 @@ a {
   color: #FF8C00;
 }
 a:hover {
-  color: #dd6a00;
+  color: #cc5900;
 }
 body {
   font-family: 'Noto Sans KR', sans-serif;
+}
+/* Make schedule table scrollable */
+.schedules {
+  overflow: hidden;
+  clear: both;
 }
 table {
   border-collapse: collapse;
@@ -27,8 +32,13 @@ table th {
 }
 .date-navigation {
   height: 50px;
+  width: 100%;
   text-align: center;
-  line-height: 50px;
+}
+.date-navigation .content {
+  vertical-align: middle;
+  font-size: 1em;
+  padding: 15px 0;
 }
 .goni-padding {
   height: 30px;
@@ -54,8 +64,10 @@ table th {
 }
 .notice {
   text-align: center;
-  line-height: 50px;
-  height: 50px;
+  height: 3%;
+  width: 100%;
+  float: left;
+  padding: 7px 0;
 }
 .header {
   background-color: #FF8C00;

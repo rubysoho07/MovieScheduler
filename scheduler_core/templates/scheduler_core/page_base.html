@@ -15,6 +15,8 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'scheduler_core/css/bootstrap.min.css' %}">
 		<!-- Custom CSS (by Yungon) -->
 		<link rel="stylesheet" type="text/css" href="{% static 'scheduler_core/css/custom.css' %}">
+		{% block additional_style %}
+		{% endblock %}
 
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -41,5 +43,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
 		<script src="{% static 'scheduler_core/js/bootstrap.min.js' %}"></script>
+		{% block additional_script %}
+		{% endblock %}
 	</body>
 </html>
