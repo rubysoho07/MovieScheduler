@@ -40,6 +40,6 @@ def save_cj_channel_schedule(channel_name, url_pattern):
         # Save last_date and go to the next day.
         last_date.latest_update = last_date.latest_update + timezone.timedelta(days=1)
         last_date.save()
-        print ("Next Date : " + str(last_date.latest_update))
+        print ("[" + channel_name + "] Next Date : " + str(last_date.latest_update))
         date_str = timezone.datetime.strftime(last_date.latest_update, "%Y%m%d")
         schedules = MovieScheduleParser.get_cj_channels(url_pattern + date_str)
