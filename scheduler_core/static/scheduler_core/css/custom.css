@@ -77,6 +77,9 @@ table th {
   font-size: 20pt;
   text-align: center;
 }
+.header a {
+  color: white;
+}
 .footer {
   background-color: #FF8C00;
   height: 30px;
