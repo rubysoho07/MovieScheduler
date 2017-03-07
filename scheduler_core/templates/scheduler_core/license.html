@@ -1,0 +1,14 @@
+{% extends 'scheduler_core/page_base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Movie Scheduler | LICENSE Information
+{% endblock %}
+
+{% block content %}
+<div style="height: 100%; padding: 100px 0;">
+    <p style="font-weight: bold;">MovieScheduler는 다음과 같은 라이브러리를 사용하고 있습니다.</p>
+
+    <p><a href="http://meetselva.github.io/fixed-table-rows-cols/">fixedTableRC</a> - 테이블의 첫 행 및 열 고정 <a href="{% static 'scheduler_core/misc/LICENSE-fixedTableRC.txt' %}">(MIT License)</a></p>
+</div>
+{% endblock %}

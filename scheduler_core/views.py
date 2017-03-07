@@ -1,3 +1,4 @@
+from django.views.generic.base import TemplateView
 from django.views.generic.dates import DayArchiveView, TodayArchiveView
 from django.db.models import Q
 
@@ -63,3 +64,8 @@ class MovieScheduleDAV(DayArchiveView):
         context['programs_hour'] = programs_hour
 
         return context
+
+
+# License
+class LicenseTemplateView(TemplateView):
+    template_name = "scheduler_core/license.html"
