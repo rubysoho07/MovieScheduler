@@ -1,0 +1,60 @@
+{% extends 'scheduler_core/page_base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Movie Scheduler | Setting
+{% endblock %}
+
+{% block content %}
+<div style="padding: 20px;">
+<p>표시하거나 숨길 방송사를 선택하세요.</p>
+</div>
+<!-- Form to determine what broadcast company will be displayed.  -->
+<div>
+    <form method="get" action="{% url 'today_schedule' %}" name="setting-form" onsubmit="saveSettings()">
+        {% for company in object_list %}
+        <div style="padding-left: 20px; padding-top: 2px; padding-bottom: 2px;">
+            <input id="broadcast_{{ company.id }}" type="checkbox" checked="checked" name="broadcast_company" value="broadcast_{{ company.id }}"> {{ company.bc_name }}
+        </div>
+        {% endfor %}
+        <div style="padding: 20px;">
+        <button class="btn" type="submit">확인</button>
+            <a class="btn btn-danger" href="{% url 'today_schedule' %}">취소</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block additional_script %}
+<script type="text/javascript" src="{% static 'scheduler_core/js/common.js' %}"></script>
+<script type="text/javascript">
+    function saveSettings() {
+        var msg = "";
+        var cookie_date = new Date();
+
+        // Get checkboxes.
+        var checkboxes = document.getElementsByName("broadcast_company");
+
+        // Set expiration date. (Expires after 30 days)
+        cookie_date.setTime(cookie_date.getTime() + (30*24*60*60*1000));
+
+        // Save cookie.
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked == true)
+                document.cookie = checkboxes[i].value + "=true;expires=" + cookie_date.toUTCString() + ";path=/";
+            else
+                document.cookie = checkboxes[i].value + "=false;expires=" + cookie_date.toUTCString() + ";path=/";
+        }
+    }
+
+    $(document).ready(function() {
+{% for company in object_list %}
+        if (getCookie("broadcast_{{ company.id }}") == "true") {
+            $("#broadcast_{{ company.id }}").prop("checked", true);
+        } else {
+            $("#broadcast_{{ company.id }}").prop("checked", false);
+        }
+{% endfor %}
+    });
+</script>
+{% endblock %}

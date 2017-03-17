@@ -15,7 +15,7 @@ Movie Scheduler | {{ day }}
     <div class="col-md-4 col-sm-4 col-xs-4">
         <div class="content">
             {% if previous_day %}
-               <a href="{% url 'day' previous_day|date:'Y' previous_day|date:'b' previous_day|date:'d' %}"><span>&laquo;</span> {{ previous_day }}</a>
+               <a href="{% url 'day' previous_day|date:'Y' previous_day|date:'b' previous_day|date:'d' %}">&laquo; {{ previous_day }}</a>
             {% endif %}
         </div>
     </div>
@@ -27,7 +27,7 @@ Movie Scheduler | {{ day }}
     <div class="col-md-4 col-sm-4 col-xs-4">
         <div class="content">
             {% if next_day %}
-                <a href="{% url 'day' next_day|date:'Y' next_day|date:'b' next_day|date:'d' %}">{{ next_day }} <span>&raquo;</span></a>
+                <a href="{% url 'day' next_day|date:'Y' next_day|date:'b' next_day|date:'d' %}">{{ next_day }} &raquo;</a>
             {% endif %}
         </div>
     </div>
@@ -40,26 +40,26 @@ Movie Scheduler | {{ day }}
             <tr>
                 <th>H</th>
             {% for bc in bc_list %}
-                <th>{{ bc.bc_name }}</th>
+                <th class="broadcast_{{ bc.id }}">{{ bc.bc_name }}</th>
             {% endfor %}
             </tr>
         </thead>
         <tbody>
-            {% for hour in programs_hour %}
+            {% for program_hour in programs_all %}
             <tr>
-                <td class="hour">{{ hour.hour }}</td>
-                {% for item in hour.programs_list %}
-                    <td class="schedule">
-                        {% for i in item %}
+                <td class="hour">{{ program_hour.hour }}</td>
+                {% for company in program_hour.programs %}
+                    <td class="schedule broadcast_{{ company.company_id }}">
+                        {% for program in company.program_list %}
                             <p>
-                                <span class="time">{{ i.start_time.minute }}</span>&nbsp;
-                                <span class="title">{{ i.title }}</span>&nbsp;
-                            {% if i.ratings == 0 %}
+                                <span class="time">{{ program.start_time.minute }}</span>&nbsp;
+                                <span class="title">{{ program.title }}</span>&nbsp;
+                            {% if program.ratings == 0 %}
                                 <span class="rating-all">All</span>
-                            {% elif i.ratings == 19 %}
-                                <span class="rating-adult">{{ i.ratings }}</span>
+                            {% elif program.ratings == 19 %}
+                                <span class="rating-adult">{{ program.ratings }}</span>
                             {% else %}
-                                <span class="rating">{{ i.ratings }}</span>
+                                <span class="rating">{{ program.ratings }}</span>
                             {% endif %}
                             </p>
                         {% endfor %}
@@ -79,9 +79,17 @@ Movie Scheduler | {{ day }}
 {% endblock %}
 
 {% block additional_script %}
-<!-- Additional script to fix first column and row of the table. -->
 <script type="text/javascript" src="{% static 'scheduler_core/js/fixed_table_rc.js' %}"></script>
+<script type="text/javascript" src="{% static 'scheduler_core/js/common.js' %}"></script>
 <script type="text/javascript">
+function hideSchedule() {
+{% for bc in bc_list %}
+    if (getCookie("broadcast_{{ bc.id }}") == "false") {
+        $(".broadcast_{{ bc.id }}").hide();
+    }
+{% endfor %}
+}
+
 $(document).ready(function() {
     $('#schedule_table').fxdHdrCol({
         fixedCols: 1,
@@ -96,6 +104,8 @@ $(document).ready(function() {
             { width: 210, align: 'center' }
         ]
     });
+
+    hideSchedule();
 });
 </script>
 {% endblock %}

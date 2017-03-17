@@ -32,7 +32,16 @@
 	</head>
 	<body>
 		<div class="header">
-			<a href="{% url 'today_schedule' %}">MovieScheduler</a>
+            <div class="container">
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    <a href="{% url 'today_schedule' %}">MovieScheduler</a>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    <a href="{% url 'setting' %}" title="설정"><span class="glyphicon glyphicon-wrench"></span></a>
+                </div>
+            </div>
 		</div>
         <div class="container">
             {% block content %}

@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from scheduler_core.views import MovieScheduleDAV, MovieScheduleTAV, LicenseTemplateView
+from scheduler_core.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{2})/$', MovieScheduleDAV.as_view(), name='day'),
     url(r'^$', MovieScheduleTAV.as_view(), name='today_schedule'),
     url(r'^license/$', LicenseTemplateView.as_view(), name='license'),
+    url(r'^setting/$', BroadcastCompanyDisplaySettingView.as_view(), name='setting'),
 ]
