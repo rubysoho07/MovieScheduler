@@ -90,19 +90,6 @@ table {
   padding: 7px 0;
 }
 
-.header {
-  background-color: @base-color;
-  height: @header-height;
-  line-height: @header-height;
-  color: white;
-  font-size: 20pt;
-  text-align: center;
-
-  a {
-    color: white;
-  }
-}
-
 .footer {
   background-color: @base-color;
   height: 30px;
@@ -113,4 +100,72 @@ table {
   a {
     color: white;
   }
+}
+
+@bgHighlight    : @base-color + #222;
+@colDefault     : #ffffff;
+@colHighlight   : #ffffff;
+@dropDown       : false;
+.ddm() when (@dropDown) {
+  > li > .dropdown-menu {
+      background-color: @base-color;
+      > li {
+        > a {
+          color: @colDefault;
+          &:hover,  &:focus {
+            color: @colHighlight;
+            background-color: @bgHighlight; }}
+        > .divider {
+          background-color: @bgHighlight;}}}
+  .open .dropdown-menu > .active {
+    > a, > a:hover, > a:focus {
+      color: @colHighlight;
+      background-color: @bgHighlight; }}}
+.navbar-default {
+  background-color: @base-color;
+  border-color: @bgHighlight;
+  .navbar-brand {
+    color: @colDefault;
+    &:hover, &:focus {
+      color: @colHighlight; }}
+  .navbar-text {
+    color: @colDefault; }
+  .navbar-nav {
+    > li {
+      > a {
+        color: @colDefault;
+        &:hover,  &:focus {
+          color: @colHighlight; }}}
+    .ddm;
+    > .active {
+      > a, > a:hover, > a:focus {
+        color: @colHighlight;
+        background-color: @bgHighlight; }}
+    > .open {
+      > a, > a:hover, > a:focus {
+        color: @colHighlight;
+        background-color: @bgHighlight; }}}
+  .navbar-toggle {
+    border-color: @bgHighlight;
+    &:hover, &:focus {
+      background-color: @bgHighlight; }
+    .icon-bar {
+      background-color: @colDefault; }}
+  .navbar-collapse,
+  .navbar-form {
+    border-color: @colDefault; }
+  .navbar-link {
+    color: @colDefault;
+    &:hover {
+      color: @colHighlight; }}}
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu {
+    > li > a {
+      color: @colDefault;
+      &:hover, &:focus {
+        color: @colHighlight; }}
+    > .active {
+      > a, > a:hover, > a:focus {
+        color: @colHighlight;
+        background-color: @bgHighlight; }}}
 }

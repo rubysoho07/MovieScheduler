@@ -33,14 +33,24 @@
 	<body>
 		<div class="header">
             <div class="container">
-                <div class="col-md-4 col-sm-4 col-xs-4">
-                    <a href="{% url 'today_schedule' %}">MovieScheduler</a>
-                </div>
-                <div class="col-md-4 col-sm-4 col-xs-4">
-                </div>
-                <div class="col-md-4 col-sm-4 col-xs-4">
-                    <a href="{% url 'setting' %}" title="설정"><span class="glyphicon glyphicon-wrench"></span></a>
-                </div>
+				<nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                </button>
+                            <a class="navbar-brand" href="{% url 'today_schedule' %}">MovieScheduler</a>
+                        </div>
+                        <div id="navbar" class="navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="{% url 'setting' %}" title="설정"><span class="glyphicon glyphicon-wrench"></span> 설정</a></li>
+                            </ul>
+    				    </div>
+                    </div>
+
+				</nav>
             </div>
 		</div>
         <div class="container">
@@ -49,8 +59,10 @@
         </div>
 		<!-- Footer -->
 		<div class="footer">
+            <div class="container">
 			2017 April Station Lab(Yungon Park). All rights reserved. |
 			<a href="{% url 'license' %}">LICENSE</a>
+            </div>
 		</div>
 		<!-- JQuery (Necessary for Bootstrap's JavaScript plugins) -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
