@@ -18,7 +18,7 @@ class MovieSchedule(models.Model):
     title = models.CharField(max_length=300)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    ratings = models.SmallIntegerField(blank=True)
+    ratings = models.SmallIntegerField(blank=True, null=True)
 
     def __unicode__(self):
         return self.broadcast_company.bc_name + "/" + self.title
@@ -27,7 +27,7 @@ class MovieSchedule(models.Model):
 # Latest update date.
 class LatestUpdate(models.Model):
     broadcast_company = models.ForeignKey('BroadcastCompany', on_delete=models.CASCADE)
-    latest_update = models.DateTimeField()
+    latest_update = models.DateTimeField(null=True)
 
     def __unicode__(self):
         return self.broadcast_company + "/" + str(self.latest_update)

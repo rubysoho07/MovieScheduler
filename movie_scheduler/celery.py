@@ -48,6 +48,12 @@ app.conf.beat_schedule = {
         'schedule': crontab(minute=30, hour=0),
         'args': ("CatchOn2", "http://catchon.tving.com/catchon/schedule2?startDate="),
     },
+    # Execute 06:30 on every Saturday.
+    'get_kakao_tv_schedule': {
+        'task': 'scheduler_core.tasks.save_kakao_tv_schedule',
+        'schedule': crontab(minute=30, hour=6, day_of_week='sat'),
+        'args': (),
+    },
 }
 
 # Set timezone for KST.

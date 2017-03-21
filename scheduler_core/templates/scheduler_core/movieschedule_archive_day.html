@@ -54,7 +54,9 @@ Movie Scheduler | {{ day }}
                             <p>
                                 <span class="time">{{ program.start_time.minute }}</span>&nbsp;
                                 <span class="title">{{ program.title }}</span>&nbsp;
-                            {% if program.ratings == 0 %}
+                            {% if program.ratings == None %}
+                                <span></span>
+                            {% elif program.ratings == 0 %}
                                 <span class="rating-all">All</span>
                             {% elif program.ratings == 19 %}
                                 <span class="rating-adult">{{ program.ratings }}</span>
@@ -73,7 +75,12 @@ Movie Scheduler | {{ day }}
 <!-- End of schedule list. -->
 <div class="notice">
     <div class="content">
-        방송시간은 방송사의 사정으로 변경될 수 있습니다. 정확한 정보는 각 방송사 홈페이지를 참고해 주세요.
+        <p>방송시간은 방송사의 사정으로 변경될 수 있습니다. 정확한 정보는 각 방송사 홈페이지를 참고해 주세요.</p>
+        <p>
+            <a href="http://kakao-tv.tistory.com/category/PLAYY%20%ED%8E%B8%EC%84%B1%ED%91%9C">
+                Kakao TV의 PLAYY 영화/애니메이션 채널은 등급 정보를 제공하지 않습니다.
+            </a>
+        </p>
     </div>
 </div>
 {% endblock %}
@@ -97,11 +104,13 @@ $(document).ready(function() {
         height: "100%",
         colModal: [
             { width: 30, align: 'center' },
-            { width: 210, align: 'center' },
-            { width: 210, align: 'center' },
-            { width: 210, align: 'center' },
-            { width: 210, align: 'center' },
-            { width: 210, align: 'center' }
+            { width: 150, align: 'center' },
+            { width: 150, align: 'center' },
+            { width: 150, align: 'center' },
+            { width: 150, align: 'center' },
+            { width: 150, align: 'center' },
+            { width: 150, align: 'center' },
+            { width: 150, align: 'center' },
         ]
     });
 

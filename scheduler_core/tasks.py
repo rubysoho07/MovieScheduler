@@ -43,3 +43,28 @@ def save_cj_channel_schedule(channel_name, url_pattern):
         print ("[" + channel_name + "] Next Date : " + str(last_date.latest_update))
         date_str = timezone.datetime.strftime(last_date.latest_update, "%Y%m%d")
         schedules = MovieScheduleParser.get_cj_channels(url_pattern + date_str)
+
+
+# Get Kakao TV Movie/Animation Channel Schedule.
+@shared_task()
+def save_kakao_tv_schedule():
+
+    # Get movie and animation schedule.
+    movie_schedule, animation_schedule = MovieScheduleParser.get_kakao_tv_schedule()
+
+    # Get or create broadcasting company information.
+    movie_channel, _ = BroadcastCompany.objects.get_or_create(bc_name="PLAYY Movie")
+    animation_channel, _ = BroadcastCompany.objects.get_or_create(bc_name="PLAYY Animation")
+
+    # Save schedules
+    MovieScheduleParser.save_kakao_schedule(movie_channel, movie_schedule)
+    MovieScheduleParser.save_kakao_schedule(animation_channel, animation_schedule)
+
+    # Update last update date.
+    movie_channel_last_update, _ = LatestUpdate.objects.get_or_create(broadcast_company=movie_channel)
+    movie_channel_last_update.latest_update = timezone.now()
+    movie_channel_last_update.save()
+
+    animation_channel_last_update, _ = LatestUpdate.objects.get_or_create(broadcast_company=animation_channel)
+    animation_channel_last_update.latest_update = timezone.now()
+    animation_channel_last_update.save()

@@ -1,4 +1,4 @@
-#MovieScheduler
+# MovieScheduler
 
 국내 영화 채널의 편성표를 한 곳에서 모아 보실 수 있습니다.
 
@@ -9,6 +9,7 @@
 * Channel CGV
 * Catch On 1
 * Catch On 2
+* kakaoTV 팟플레이어 영화/애니메이션 채널 (PLAYY Movie/PLAYY Animation)
 
 지원하는 방송사는 차후 추가 예정입니다.
 
@@ -23,5 +24,6 @@ I support these channels below:
 * Channel CGV
 * Catch On 1
 * Catch On 2
+* kakaoTV PodPlayer Movie/Animation (PLAYY Movie/PLAYY Animation)
 
 I'll support more broadcasting company soon.

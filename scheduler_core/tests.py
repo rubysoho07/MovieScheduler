@@ -18,3 +18,14 @@ class MovieScheduleTestCase(TestCase):
     def test_get_catchon2_schedule(self):
         """ Test for getting Catch On 2 schedule """
         tasks.save_cj_channel_schedule("CatchOn2", "http://catchon.tving.com/catchon/schedule2?startDate=")
+
+
+class KakaoTVScheduleTestCase(TestCase):
+    def setUp(self):
+        pass
+
+    def test_get_kakao_tv_schedule(self):
+        """
+        Test for getting KaKao TV (Animation, Movie) schedule.
+        """
+        tasks.save_kakao_tv_schedule()
