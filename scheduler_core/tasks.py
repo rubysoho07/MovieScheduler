@@ -11,7 +11,7 @@ from scheduler_core.models import BroadcastCompany, MovieSchedule, LatestUpdate
 
 # Create your tasks here.
 # Save CJ E&M Channels' schedule.
-@shared_task()
+@shared_task(max_retries=2, default_retry_delay=60 * 60)
 def save_cj_channel_schedule(channel_name, url_pattern):
     # If channel_name is None, add to database of channels.
     channel, created = BroadcastCompany.objects.get_or_create(bc_name=channel_name)
@@ -46,7 +46,7 @@ def save_cj_channel_schedule(channel_name, url_pattern):
 
 
 # Get Kakao TV Movie/Animation Channel Schedule.
-@shared_task()
+@shared_task(max_retries=2, default_retry_delay=60 * 60)
 def save_kakao_tv_schedule():
 
     # Get movie and animation schedule.
@@ -57,8 +57,11 @@ def save_kakao_tv_schedule():
     animation_channel, _ = BroadcastCompany.objects.get_or_create(bc_name="PLAYY Animation")
 
     # Save schedules
-    MovieScheduleParser.save_kakao_schedule(movie_channel, movie_schedule)
-    MovieScheduleParser.save_kakao_schedule(animation_channel, animation_schedule)
+    if len(movie_channel) != 0:
+        MovieScheduleParser.save_kakao_schedule(movie_channel, movie_schedule)
+
+    if len(animation_channel) != 0:
+        MovieScheduleParser.save_kakao_schedule(animation_channel, animation_schedule)
 
     # Update last update date.
     movie_channel_last_update, _ = LatestUpdate.objects.get_or_create(broadcast_company=movie_channel)

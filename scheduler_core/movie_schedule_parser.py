@@ -105,6 +105,9 @@ class MovieScheduleParser(object):
                                   "rating": rating[0]})
 
         # Return it.
+        if len(schedule_list) <= 0:
+            return None
+
         return schedule_list
 
     # Get Kakao TV Movie/Animation Schedule.

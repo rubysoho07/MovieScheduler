@@ -22,33 +22,33 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 app.conf.update(BROKER_URL=os.environ['REDIS_URL'])
 
 app.conf.beat_schedule = {
-    # Executes every day at 0:30.
+    # Executes every day at 1:30 ~ 1:34.
     'get_ocn_schedule': {
         'task': 'scheduler_core.tasks.save_cj_channel_schedule',
-        'schedule': crontab(minute=30, hour=0),
+        'schedule': crontab(minute=30, hour=1),
         'args': ("OCN", "http://ocn.tving.com/ocn/schedule?startDate="),
     },
     'get_superaction_schedule': {
         'task': 'scheduler_core.tasks.save_cj_channel_schedule',
-        'schedule': crontab(minute=30, hour=0),
+        'schedule': crontab(minute=31, hour=1),
         'args': ("SuperAction", "http://superaction.tving.com/superaction/schedule?startDate="),
     },
     'get_chcgv_schedule': {
         'task': 'scheduler_core.tasks.save_cj_channel_schedule',
-        'schedule': crontab(minute=30, hour=0),
+        'schedule': crontab(minute=32, hour=1),
         'args': ("Ch.CGV", "http://chcgv.tving.com/chcgv/schedule?startDate="),
     },
     'get_catchon1_schedule': {
         'task': 'scheduler_core.tasks.save_cj_channel_schedule',
-        'schedule': crontab(minute=30, hour=0),
+        'schedule': crontab(minute=33, hour=1),
         'args': ("CatchOn1", "http://catchon.tving.com/catchon/schedule1?startDate="),
     },
     'get_catchon2_schedule': {
         'task': 'scheduler_core.tasks.save_cj_channel_schedule',
-        'schedule': crontab(minute=30, hour=0),
+        'schedule': crontab(minute=34, hour=1),
         'args': ("CatchOn2", "http://catchon.tving.com/catchon/schedule2?startDate="),
     },
-    # Execute 06:30 on every Saturday.
+    # Executes 06:30 on every Saturday.
     'get_kakao_tv_schedule': {
         'task': 'scheduler_core.tasks.save_kakao_tv_schedule',
         'schedule': crontab(minute=30, hour=6, day_of_week='sat'),
