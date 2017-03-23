@@ -60,6 +60,10 @@ class MovieScheduleParser(object):
         # Get table.
         schedule_table = schedule.find('tbody').find_all('tr')
 
+        if len(schedule_table) == 0:
+            # If no schedule exists
+            return None
+
         # Make schedule list.
         schedule_list = []
 
@@ -105,9 +109,6 @@ class MovieScheduleParser(object):
                                   "rating": rating[0]})
 
         # Return it.
-        if len(schedule_list) <= 0:
-            return None
-
         return schedule_list
 
     # Get Kakao TV Movie/Animation Schedule.
@@ -163,10 +164,16 @@ class MovieScheduleParser(object):
 
     @staticmethod
     def make_kakao_schedule_time(date, time):
+        """
+        Make a datetime object with date & time string.
+        """
         return dateparse.parse_datetime(date + " " + time)
 
     @staticmethod
     def make_kakao_schedule_object(broadcast_company, schedule):
+        """
+        Make MovieSchedule object with broadcast_company and dictionary for schedule.
+        """
         schedule_object = MovieSchedule(broadcast_company=broadcast_company,
                                         title=schedule['title'],
                                         start_time=schedule['start_time'],
@@ -176,6 +183,9 @@ class MovieScheduleParser(object):
 
     @staticmethod
     def save_kakao_schedule(broadcast_company, schedules):
+        """
+
+        """
         for schedule in schedules:
             schedule_object = MovieScheduleParser.make_kakao_schedule_object(broadcast_company, schedule)
             schedule_object.save()
