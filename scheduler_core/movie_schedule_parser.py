@@ -184,7 +184,7 @@ class MovieScheduleParser(object):
     @staticmethod
     def save_kakao_schedule(broadcast_company, schedules):
         """
-
+        Save schedule to database.
         """
         for schedule in schedules:
             schedule_object = MovieScheduleParser.make_kakao_schedule_object(broadcast_company, schedule)
