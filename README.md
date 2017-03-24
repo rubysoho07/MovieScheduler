@@ -4,11 +4,8 @@
 
 현재 지원하는 방송사는 다음과 같습니다.
 
-* OCN
-* Super Action
-* Channel CGV
-* Catch On 1
-* Catch On 2
+* CJ E&M 계열 채널 (OCN, Super Action, Channel CGV, Catch On 1, 2)
+* t.cast 계열 채널 (Screen, CINEf)
 * kakaoTV 팟플레이어 영화/애니메이션 채널 (PLAYY Movie/PLAYY Animation)
 
 지원하는 방송사는 차후 추가 예정입니다.
@@ -19,11 +16,8 @@ You can see all schedule of Korean cable movie channels in one site.
 
 I support these channels below:
 
-* OCN
-* Super Action
-* Channel CGV
-* Catch On 1
-* Catch On 2
+* CJ E&M Channels (OCN, Super Action, Channel CGV, Catch On 1, 2)
+* t.cast Channels (Screen, CINEf)
 * kakaoTV PodPlayer Movie/Animation (PLAYY Movie/PLAYY Animation)
 
 I'll support more broadcasting company soon.

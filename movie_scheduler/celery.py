@@ -22,7 +22,7 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 app.conf.update(BROKER_URL=os.environ['REDIS_URL'])
 
 app.conf.beat_schedule = {
-    # Executes every day at 1:30 ~ 1:34.
+    # Get schedule from CJ E&M channels.
     'get_ocn_schedule': {
         'task': 'scheduler_core.tasks.save_cj_channel_schedule',
         'schedule': crontab(minute=30, hour=1),
@@ -48,11 +48,22 @@ app.conf.beat_schedule = {
         'schedule': crontab(minute=34, hour=1),
         'args': ("CatchOn2", "http://catchon.tving.com/catchon/schedule2?startDate="),
     },
-    # Executes 06:30 on every Saturday.
+    # Get schedule from kakaoTV.
     'get_kakao_tv_schedule': {
         'task': 'scheduler_core.tasks.save_kakao_tv_schedule',
         'schedule': crontab(minute=30, hour=6, day_of_week='sat'),
         'args': (),
+    },
+    # Get schedule from t.cast channels.
+    'get_screen_schedule': {
+        'task': 'scheduler_core.tasks.save_tcast_channel_schedule',
+        'schedule': crontab(minute=30, hour=4),
+        'args': ("Screen", "http://www.imtcast.com/screen/program/schedule.jsp"),
+    },
+    'get_cinef_schedule': {
+        'task': 'scheduler_core.tasks.save_tcast_channel_schedule',
+        'schedule': crontab(minute=32, hour=4),
+        'args': ("Cinef", "http://www.imtcast.com/cinef/program/schedule.jsp"),
     },
 }
 

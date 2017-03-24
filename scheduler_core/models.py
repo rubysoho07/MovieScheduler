@@ -17,7 +17,7 @@ class MovieSchedule(models.Model):
     broadcast_company = models.ForeignKey('BroadcastCompany', on_delete=models.CASCADE)
     title = models.CharField(max_length=300)
     start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    end_time = models.DateTimeField(blank=True, null=True)
     ratings = models.SmallIntegerField(blank=True, null=True)
 
 
