@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import MovieSchedule, LatestUpdate
+from .models import BroadcastCompany, MovieSchedule, LatestUpdate
 
 
 # MovieScheduleAdmin
@@ -15,3 +15,4 @@ class LatestUpdateAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(MovieSchedule, MovieScheduleAdmin)
 admin.site.register(LatestUpdate, LatestUpdateAdmin)
+admin.site.register(BroadcastCompany)
