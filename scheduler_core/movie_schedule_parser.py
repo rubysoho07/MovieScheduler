@@ -46,6 +46,13 @@ class MovieScheduleParser(object):
         # Need to encoding UTF-8. (For unicode text)
         return BeautifulSoup(data.text, "html.parser")
 
+    @staticmethod
+    def get_cj_duration(duration):
+        try:
+            return int(duration)
+        except ValueError:
+            return 0
+
     # Get movie schedule from CJ E&M channels.
     @staticmethod
     def get_cj_channels(url):
@@ -93,7 +100,7 @@ class MovieScheduleParser(object):
                                                             minutes=int(start_time_split[1]))
             # Convert naive time to timezone aware.
             start_time = timezone.make_aware(start_time, timezone.get_current_timezone())
-            end_time = start_time + timezone.timedelta(minutes=int(duration))
+            end_time = start_time + timezone.timedelta(minutes=MovieScheduleParser.get_cj_duration(duration))
 
             if start_time.hour < last_hour:
                 # Check start_time to add next day's schedule.
