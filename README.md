@@ -8,7 +8,7 @@
 * t.cast 계열 채널 (Screen, CINEf)
 * kakaoTV 팟플레이어 영화/애니메이션 채널 (PLAYY Movie/PLAYY Animation)
 
-지원하는 방송사는 차후 추가 예정입니다.
+필요 시 타 방송국의 스케줄도 추가 예정입니다.
 
 (English Version)
 
@@ -20,4 +20,4 @@ I support these channels below:
 * t.cast Channels (Screen, CINEf)
 * kakaoTV PodPlayer Movie/Animation (PLAYY Movie/PLAYY Animation)
 
-I'll support more broadcasting company soon.
+If necessary, schedules of other broadcasting companies will be added.
