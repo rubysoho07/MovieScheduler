@@ -51,7 +51,7 @@ app.conf.beat_schedule = {
     # Get schedule from kakaoTV.
     'get_kakao_tv_schedule': {
         'task': 'scheduler_core.tasks.save_kakao_tv_schedule',
-        'schedule': crontab(minute=30, hour=6, day_of_week='sat'),
+        'schedule': crontab(minute=30, hour=6, day_of_week='sun'),
         'args': (),
     },
     # Get schedule from t.cast channels.

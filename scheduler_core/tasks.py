@@ -55,10 +55,10 @@ def save_kakao_tv_schedule():
     animation_channel, _ = BroadcastCompany.objects.get_or_create(bc_name="PLAYY Animation")
 
     # Save schedules
-    if len(movie_channel) != 0:
+    if movie_channel is not None:
         MovieScheduleParser.save_schedule(movie_channel, movie_schedule)
 
-    if len(animation_channel) != 0:
+    if animation_channel is not None:
         MovieScheduleParser.save_schedule(animation_channel, animation_schedule)
 
     # Update last update date.
