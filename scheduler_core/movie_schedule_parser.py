@@ -8,7 +8,7 @@ from django.utils import timezone, dateparse
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -20,6 +20,24 @@ class MovieScheduleParser(object):
     # __init__ method
     def __init__(self):
         pass
+
+    # Get original data from web.
+    @staticmethod
+    def get_original_data(url):
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0'
+        }
+        data = requests.get(url, headers=headers)
+
+        # Need to encoding UTF-8. (For unicode text)
+        return BeautifulSoup(data.text, "html.parser")
+
+    @staticmethod
+    def parse_string_to_int(duration, default):
+        try:
+            return int(duration)
+        except ValueError:
+            return default
 
     # Get rating for CJ E&M channels.
     @staticmethod
@@ -35,23 +53,59 @@ class MovieScheduleParser(object):
         else:
             return 0
 
-    # Get original data from web.
+    # Get daily schedule for CJ E&M channels.
     @staticmethod
-    def get_original_data(url):
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0'
-        }
-        data = requests.get(url, headers=headers)
+    def get_cj_daily_schedule(schedule_date, schedule_table):
+        # Make schedule list.
+        schedule_list = []
 
-        # Need to encoding UTF-8. (For unicode text)
-        return BeautifulSoup(data.text, "html.parser")
+        last_hour = 0
+        for item in schedule_table:
+            schedule = MovieScheduleParser.parse_cj_schedule_item(item, schedule_date)
 
+            if schedule['start_time'].hour < last_hour:
+                # Check start_time to add next day's schedule.
+                schedule['start_time'] = schedule['start_time'] + timezone.timedelta(days=1)
+                schedule['end_time'] = schedule['end_time'] + timezone.timedelta(days=1)
+                schedule_date = schedule_date + timezone.timedelta(days=1)
+            elif schedule['end_time'].day != schedule_date.day:
+                # if end time is after the midnight, plus 1 day to schedule_date.
+                schedule_date = schedule_date + timezone.timedelta(days=1)
+
+            # Save hour field of last schedule.
+            last_hour = schedule['end_time'].hour
+
+            schedule_list.append(schedule)
+
+        return schedule_list
+
+    # Parse item of CJ E&M channel schedule.
     @staticmethod
-    def get_cj_duration(duration):
+    def parse_cj_schedule_item(item, schedule_date):
+        schedule = dict()
+
+        # Get title
         try:
-            return int(duration)
-        except ValueError:
-            return 0
+            title = item.find('div', class_='program')['title']
+        except KeyError:
+            # Remove span tag
+            title = item.find('div', class_='program').text
+
+        schedule['title'] = title.strip()
+
+        # Get ratings
+        rating = item.find('td', class_='rating').find('span')['class'][0]
+        schedule['rating'] = MovieScheduleParser.get_cj_channel_ratings(rating)
+
+        # Get start_time and end_time
+        duration = item.find('td', class_='runningTime').text
+        start_time = timezone.datetime.combine(schedule_date,
+                                               dateparse.parse_time(item.find('em').text.strip()))
+        schedule['start_time'] = timezone.make_aware(start_time, timezone.get_current_timezone())
+        schedule['end_time'] = \
+            start_time + timezone.timedelta(minutes=MovieScheduleParser.parse_string_to_int(duration, 0))
+
+        return schedule
 
     # Get movie schedule from CJ E&M channels.
     @staticmethod
@@ -67,62 +121,15 @@ class MovieScheduleParser(object):
         if "".join(date_split) != url[-8:]:
             return None
 
-        # Convert to timezone.datetime type.
         schedule_date = timezone.datetime(int(date_split[0]), int(date_split[1]), int(date_split[2]))
-
-        # Get table.
         schedule_table = schedule.find('tbody').find_all('tr')
 
         if len(schedule_table) == 0:
             # If no schedule exists
             return None
 
-        # Make schedule list.
-        schedule_list = []
-
-        last_hour = 0
-        for item in schedule_table:
-            # Get title
-            try:
-                title = item.find('div', class_='program')['title']
-            except KeyError:
-                # Remove span tag
-                title = item.find('div', class_='program').text
-
-            title = title.strip()
-
-            # Get start time and end time.
-            start_time_text = item.find('em').text.strip()
-            duration = item.find('td', class_='runningTime').text
-
-            start_time_split = start_time_text.split(':')
-            start_time = schedule_date + timezone.timedelta(hours=int(start_time_split[0]),
-                                                            minutes=int(start_time_split[1]))
-            # Convert naive time to timezone aware.
-            start_time = timezone.make_aware(start_time, timezone.get_current_timezone())
-            end_time = start_time + timezone.timedelta(minutes=MovieScheduleParser.get_cj_duration(duration))
-
-            if start_time.hour < last_hour:
-                # Check start_time to add next day's schedule.
-                start_time = start_time + timezone.timedelta(days=1)
-                end_time = end_time + timezone.timedelta(days=1)
-                schedule_date = schedule_date + timezone.timedelta(days=1)
-            elif end_time.day != schedule_date.day:
-                # if end time is after the midnight, plus 1 day to schedule_date.
-                schedule_date = schedule_date + timezone.timedelta(days=1)
-
-            # Save hour field of last schedule.
-            last_hour = end_time.hour
-
-            # Get ratings.
-            rating = item.find('td', class_='rating').find('span')['class']
-            schedule_list.append({"title": title,
-                                  "start_time": start_time,
-                                  "end_time": end_time,
-                                  "rating": rating[0]})
-
         # Return it.
-        return schedule_list
+        return MovieScheduleParser.get_cj_daily_schedule(schedule_date, schedule_table)
 
     # Get Kakao TV Movie/Animation Schedule.
     @staticmethod
@@ -297,7 +304,7 @@ class MovieScheduleParser(object):
         while MovieScheduleParser.check_tcast_date_range(start_date, date_range) is not True:
             # Move to schedule page of next week.
             driver.find_element_by_xpath("//span[@class='next']/a").click()
-            _ = wait.until(EC.element_to_be_clickable((By.XPATH, "//span[@class='next']/a")))
+            _ = wait.until(expected_conditions.element_to_be_clickable((By.XPATH, "//span[@class='next']/a")))
             date_range = BeautifulSoup(driver.page_source, 'html.parser').find_all('th')
 
         # Get one day's schedule iteratively.
@@ -313,11 +320,10 @@ class MovieScheduleParser(object):
             schedules = MovieScheduleParser.get_tcast_daily_schedule(schedule_table, end_date, start_hour)
 
             if schedules is None:
-                # Move to next week
                 while MovieScheduleParser.check_tcast_date_range(end_date, date_range) is not True:
                     # Move to schedule page of next week.
                     driver.find_element_by_xpath("//span[@class='next']/a").click()
-                    _ = wait.until(EC.element_to_be_clickable((By.XPATH, "//span[@class='next']/a")))
+                    _ = wait.until(expected_conditions.element_to_be_clickable((By.XPATH, "//span[@class='next']/a")))
                     date_range = BeautifulSoup(driver.page_source, 'html.parser').find_all('th')
 
                 schedule_table = BeautifulSoup(driver.page_source, 'html.parser').find('tbody')
