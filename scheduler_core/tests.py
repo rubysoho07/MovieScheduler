@@ -63,9 +63,9 @@ class KakaoTVScheduleTestCase(TestCase):
     def setUp(self):
         pass
 
-    def test_get_kakao_tv_schedule(self):
+    def test_save_kakao_tv_schedule(self):
         """
-        Test for getting KaKao TV (Animation, Movie) schedule.
+        Test for getting and saving KaKao TV (Animation, Movie) schedule.
         """
         tasks.save_kakao_tv_schedule()
 
