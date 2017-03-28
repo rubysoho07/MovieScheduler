@@ -16,32 +16,35 @@ from scheduler_core.models import MovieSchedule
 
 
 class MovieScheduleParser(object):
+    """Parse movie schedule from schedule table of Korean movie channels."""
 
-    # __init__ method
     def __init__(self):
         pass
 
-    # Get original data from web.
     @staticmethod
     def get_original_data(url):
+        """Get source from web and returns BeautifulSoup object."""
+
         headers = {
             'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0'
         }
         data = requests.get(url, headers=headers)
 
-        # Need to encoding UTF-8. (For unicode text)
         return BeautifulSoup(data.text, "html.parser")
 
     @staticmethod
     def parse_string_to_int(duration, default):
+        """Try to parse string to int, or return default value."""
+
         try:
             return int(duration)
         except ValueError:
             return default
 
-    # Get rating for CJ E&M channels.
     @staticmethod
     def get_cj_channel_ratings(rating):
+        """Return rating information from string."""
+
         if rating == "age19":
             return 19
         elif rating == "age15":
@@ -53,23 +56,25 @@ class MovieScheduleParser(object):
         else:
             return 0
 
-    # Get daily schedule for CJ E&M channels.
     @staticmethod
     def get_cj_daily_schedule(schedule_date, schedule_table):
-        # Make schedule list.
+        """Get daily schedule for CJ E&M channels."""
+
         schedule_list = []
 
-        last_hour = 0
+        last_hour = 0       # Hour of last schedule
         for item in schedule_table:
             schedule = MovieScheduleParser.parse_cj_schedule_item(item, schedule_date)
 
             if schedule['start_time'].hour < last_hour:
-                # Check start_time to add next day's schedule.
+                # Move to next day's schedule.
                 schedule['start_time'] = schedule['start_time'] + timezone.timedelta(days=1)
                 schedule['end_time'] = schedule['end_time'] + timezone.timedelta(days=1)
+
+                # Move to next day.
                 schedule_date = schedule_date + timezone.timedelta(days=1)
             elif schedule['end_time'].day != schedule_date.day:
-                # if end time is after the midnight, plus 1 day to schedule_date.
+                # Set next day because next schedule is for next day.
                 schedule_date = schedule_date + timezone.timedelta(days=1)
 
             # Save hour field of last schedule.
@@ -79,9 +84,10 @@ class MovieScheduleParser(object):
 
         return schedule_list
 
-    # Parse item of CJ E&M channel schedule.
     @staticmethod
     def parse_cj_schedule_item(item, schedule_date):
+        """Return CJ E&M channel schedule from table row."""
+
         schedule = dict()
 
         # Get title
@@ -107,17 +113,16 @@ class MovieScheduleParser(object):
 
         return schedule
 
-    # Get movie schedule from CJ E&M channels.
     @staticmethod
     def get_cj_channels(url):
-        # Get original data
+        """Get movie schedule from CJ E&M channels."""
+
         schedule = MovieScheduleParser.get_original_data(url).find('div', class_='scheduler')
 
-        # Get date.
         date_text = schedule.find('em').text[:-4].strip()
+        date_split = date_text.split(".")
 
         # If date is different from the day of argument, return None.
-        date_split = date_text.split(".")
         if "".join(date_split) != url[-8:]:
             return None
 
@@ -128,19 +133,18 @@ class MovieScheduleParser(object):
             # If no schedule exists
             return None
 
-        # Return it.
         return MovieScheduleParser.get_cj_daily_schedule(schedule_date, schedule_table)
 
-    # Get Kakao TV Movie/Animation Schedule.
     @staticmethod
     def get_kakao_tv_schedule():
+        """Get Kakao TV Movie/Animation Schedule."""
 
-        # Get original data
+
         original_page = MovieScheduleParser.get_original_data(
             "http://kakao-tv.tistory.com/category/PLAYY%20%ED%8E%B8%EC%84%B1%ED%91%9C"
         )
 
-        # Get two schedule tables.
+        # Get first article to get schedule for next week.
         first_article = original_page.find('div', class_='article')
         schedules_table = first_article.find_all('table')
 
@@ -149,10 +153,10 @@ class MovieScheduleParser(object):
 
         return movie_schedule, animation_schedule
 
-    # Parse Kakao TV Schedule.
     @staticmethod
     def parse_kakao_tv_schedule(table):
-        # blank schedule.
+        """Parse Kakao TV Schedule."""
+
         schedule_list = []
 
         # Ignore first row.
@@ -184,16 +188,14 @@ class MovieScheduleParser(object):
 
     @staticmethod
     def make_kakao_schedule_time(date, time):
-        """
-        Make a datetime object with date & time string.
-        """
+        """Make a datetime object with date & time string."""
+
         return dateparse.parse_datetime(date + " " + time)
 
     @staticmethod
     def make_schedule_object(broadcast_company, schedule):
-        """
-        Make MovieSchedule object with broadcast_company and dictionary for schedule.
-        """
+        """Make MovieSchedule object with broadcast_company and dictionary for schedule."""
+
         schedule_object = MovieSchedule(broadcast_company=broadcast_company,
                                         title=schedule['title'],
                                         start_time=schedule['start_time'],
@@ -203,15 +205,16 @@ class MovieScheduleParser(object):
 
     @staticmethod
     def save_schedule(broadcast_company, schedules):
-        """
-        Save schedule from schedule list to database.
-        """
+        """Save schedule from schedule list to database."""
+
         for schedule in schedules:
             schedule_object = MovieScheduleParser.make_schedule_object(broadcast_company, schedule)
             schedule_object.save()
 
     @staticmethod
     def get_tcast_rating(rating):
+        """Return rating information from file name of rating information."""
+
         rating_file_name = rating.split("/")[-1]
 
         if rating_file_name == "icon_7age.gif":
@@ -228,9 +231,13 @@ class MovieScheduleParser(object):
     @staticmethod
     def parse_tcast_schedule_item(item, date):
         """
-        Make single schedule with item. Return single schedule dictionary.
-        :item - \<div class="con active"\>
+        Make single schedule for t.cast channel. Return single schedule dictionary.
+        
+        :param item: <div class="con active">
+        :param date: <strong>05:30</strong>
+        :return schedule of movie
         """
+
         schedule = dict()
 
         start_time = dateparse.parse_time(item.find('strong').text.strip())
@@ -250,7 +257,8 @@ class MovieScheduleParser(object):
 
     @staticmethod
     def check_tcast_date_range(date, date_range):
-        """ Extract date range from table and check if date is in that range. """
+        """Extract date range from table and check if date is in that range."""
+
         found = False
         for i in date_range[1:]:
             if str(i.find_all(text=True)[-1]) == timezone.datetime.strftime(date, "%Y.%m.%d"):
@@ -261,6 +269,8 @@ class MovieScheduleParser(object):
 
     @staticmethod
     def get_tcast_daily_schedule(table, date, start_hour):
+        """Get daily schedule for t.cast channel."""
+
         date_format = timezone.datetime.strftime(date, "%Y%m%d")
         next_date = date + timezone.timedelta(days=1)
         daily_schedule = []
@@ -286,6 +296,8 @@ class MovieScheduleParser(object):
 
     @staticmethod
     def get_tcast_start_hour(channel):
+        """Get start hour of schedule table from t.cast channel."""
+
         if channel.bc_name == "Cinef":
             return 6
         else:
@@ -293,7 +305,8 @@ class MovieScheduleParser(object):
 
     @staticmethod
     def get_tcast_channel_schedules(channel, url, start_date):
-        """ Get t.cast channel schedule until no schedule exists. At last, return last update date. """
+        """Get t.cast channel schedule until no schedule exists. And return last update date. """
+
         driver = webdriver.PhantomJS()
         driver.get(url)
 

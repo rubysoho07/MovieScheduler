@@ -7,8 +7,9 @@ from scheduler_core.models import MovieSchedule, BroadcastCompany
 
 
 # Create your views here.
-# Schedule for a day.
 class MovieScheduleDAV(DayArchiveView):
+    """Display schedule for a day."""
+
     model = MovieSchedule
     date_field = 'start_time'
     allow_future = True
@@ -40,18 +41,21 @@ class MovieScheduleDAV(DayArchiveView):
         return context
 
 
-# Today's Schedule View.
 class MovieScheduleTAV(MovieScheduleDAV, TodayArchiveView):
+    """Display today's schedule."""
+
     model = MovieSchedule
     date_field = 'start_time'
     allow_future = True
 
 
-# License
 class LicenseTemplateView(TemplateView):
+    """Show license information of external libraries."""
+
     template_name = "scheduler_core/license.html"
 
 
-# Setting whether displaying or hiding some broadcast company's schedule.
 class BroadcastCompanyDisplaySettingView(ListView):
+    """Set whether displaying or hiding some broadcast company's schedule."""
+
     model = BroadcastCompany

@@ -9,7 +9,11 @@ from bs4 import BeautifulSoup
 
 # Create your tests here.
 class CJScheduleTestCase(TestCase):
+    """Test to get schedules from CJ E&M channel."""
+
     def setUp(self):
+        """Config environments before testing."""
+
         self.original_data = """
         <table>
             <tbody>
@@ -33,10 +37,14 @@ class CJScheduleTestCase(TestCase):
         self.schedule_date = timezone.now()
 
     def test_get_cj_channel_ratings(self):
+        """Test to get rating from string properly."""
+
         result = MovieScheduleParser.get_cj_channel_ratings("age15")
         self.assertEqual(result, 15)
 
     def test_parse_cj_schedule_item(self):
+        """Test to parse a program from table properly."""
+
         result = MovieScheduleParser.parse_cj_schedule_item(self.schedule_table[0], self.schedule_date)
 
         self.assertEqual(result['title'], "Test Program 1", "Check title")
@@ -45,37 +53,48 @@ class CJScheduleTestCase(TestCase):
         self.assertEqual(result['rating'], 19, "Check rating")
 
     def test_get_cj_daily_schedule(self):
+        """Test to get daily schedule from web site properly."""
+
         result = MovieScheduleParser.get_cj_daily_schedule(self.schedule_date, self.schedule_table)
         self.assertEqual(len(result), 1)
 
     def test_get_cj_schedule(self):
-        """ Test for getting CJ E&M channel schedule """
+        """Test to get CJ E&M channel schedule"""
+
         date_str = timezone.datetime.strftime(self.schedule_date, "%Y%m%d")
         result = MovieScheduleParser.get_cj_channels("http://ocn.tving.com/ocn/schedule?startDate=" + date_str)
         self.assertNotEqual(len(result), 0)
 
     def test_save_cj_channel_schedule(self):
-        """ Test for getting and saving CJ E&M channel schedule """
+        """Test to get and saving CJ E&M channel schedule"""
+
         tasks.save_cj_channel_schedule("OCN", "http://ocn.tving.com/ocn/schedule?startDate=")
 
 
 class KakaoTVScheduleTestCase(TestCase):
+    """Test to get schedules from kakao TV."""
+
     def setUp(self):
+        """Configuration before testing"""
         pass
 
     def test_save_kakao_tv_schedule(self):
-        """
-        Test for getting and saving KaKao TV (Animation, Movie) schedule.
-        """
+        """Test to get and saving KaKao TV (Animation, Movie) schedule."""
+
         tasks.save_kakao_tv_schedule()
 
 
 class TCastScheduleTestCase(TestCase):
+    """Test to get schedules from t.cast channels."""
+
     def setUp(self):
+        """Configuration before testing"""
+
         self.channel, _ = BroadcastCompany.objects.get_or_create(bc_name="Screen")
 
     def test_get_tcast_single_schedule(self):
-        """ Test for making single schedule """
+        """Test to make single schedule"""
+
         original_data = """
         <strong>21:35</strong>
         <a href="#a" class="layerpopup1" onclick="aa">Test Schedule</a>
@@ -89,7 +108,7 @@ class TCastScheduleTestCase(TestCase):
         self.assertEqual(result['start_time'].minute, 35)
 
     def test_get_tcast_schedule(self):
-        """ Test for getting t.cast channel schedule. """
+        """Test to get t.cast channel schedule."""
 
         end_date = MovieScheduleParser.get_tcast_channel_schedules(
             self.channel,
@@ -100,7 +119,8 @@ class TCastScheduleTestCase(TestCase):
         self.assertEqual(end_date.month, 4)
 
     def test_get_tcast_next_schedule(self):
-        """ Test for getting t.cast channel schedule on next week. """
+        """Test to get t.cast channel schedule on next week."""
+
         MovieScheduleParser.get_tcast_channel_schedules(self.channel,
                                                         "http://www.imtcast.com/screen/program/schedule.jsp",
                                                         timezone.datetime(2017, 3, 28,
