@@ -10,41 +10,71 @@ body {
 }
 /* Make schedule table scrollable */
 .schedules {
-  overflow: hidden;
-  clear: both;
+  width: 100%;
+  overflow: auto;
 }
-table {
-  border-collapse: collapse;
-  vertical-align: middle;
-}
-table th,
-table td {
-  border: 1px solid black;
-  padding: 8px;
-}
-table th,
-table td.hour {
-  text-align: center;
-}
-table th {
-  background-color: #FF8C00;
-  color: white;
+.schedule-list {
+  width: 1830px;
 }
 .date-navigation {
-  height: 50px;
+  height: 30px;
   width: 100%;
   text-align: center;
 }
 .date-navigation .content {
   vertical-align: middle;
   font-size: 1em;
-  padding: 15px 0;
+  padding: 10px 0;
 }
 .goni-padding {
   height: 30px;
 }
+.hour-fixed {
+  position: absolute;
+  margin-top: 30px;
+  background-color: white;
+}
+.hour {
+  height: 80px;
+  width: 30px;
+  clear: both;
+  border-left: solid black 1px;
+  border-right: solid black 1px;
+  border-bottom: solid black 1px;
+  text-align: center;
+  float: left;
+  padding-top: 30px;
+}
+.table-header {
+  float: left;
+  height: 30px;
+  width: 200px;
+  background-color: #FF8C00;
+  color: white;
+  text-align: center;
+  border-right: solid black 1px;
+  border-top: solid black 1px;
+  border-bottom: solid black 1px;
+  padding-top: 5px;
+}
+.table-header.hour {
+  width: 30px;
+  clear: both;
+  float: left;
+  border-left: solid black 1px;
+  border-right: solid black 1px;
+  border-bottom: solid black 1px;
+  text-align: center;
+}
 .schedule {
   font-size: 9pt;
+  float: left;
+  width: 200px;
+  height: 80px;
+  border-right: solid black 1px;
+  border-bottom: solid black 1px;
+  padding: 8px;
+  overflow: auto;
 }
 .schedule .time {
   color: #9C9C9C;

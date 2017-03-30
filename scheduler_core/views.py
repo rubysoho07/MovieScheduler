@@ -38,6 +38,8 @@ class MovieScheduleDAV(DayArchiveView):
 
         context['programs_all'] = programs_all
 
+        context['hours'] = range(24)
+
         return context
 
 

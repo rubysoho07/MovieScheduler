@@ -2,7 +2,11 @@
 @base-color: #FF8C00;
 @green-color: #08A000;
 @light-gray: #9C9C9C;
-@header-height: 50px;
+@header-height: 30px;
+@schedule-width: 200px;
+@schedule-height: 80px;
+@supported-companies: 9;
+@hour-width: 30px;
 
 a {
   color: @base-color;
@@ -18,27 +22,12 @@ body {
 
 /* Make schedule table scrollable */
 .schedules {
-  overflow: hidden;
-  clear: both;
+  width: 100%;
+  overflow: auto;
 }
 
-table {
-  border-collapse: collapse;
-  vertical-align: middle;
-
-  th, td {
-    border: 1px solid black;
-    padding: 8px;
-  }
-
-  th, td.hour {
-    text-align: center;
-  }
-
-  th {
-    background-color: @base-color;
-    color: white;
-  }
+.schedule-list {
+    width: 30 + @supported-companies * 200px;
 }
 
 .date-navigation {
@@ -49,7 +38,7 @@ table {
   .content {
     vertical-align: middle;
     font-size: 1em;
-    padding: 15px 0;
+    padding: 10px 0;
   }
 }
 
@@ -57,8 +46,56 @@ table {
   height: 30px;
 }
 
+.hour-fixed {
+    position: absolute;
+    margin-top: @header-height;
+    background-color: white;
+}
+
+.hour {
+    height: @schedule-height;
+    width: @hour-width;
+    clear: both;
+    border-left: solid black 1px;
+    border-right: solid black 1px;
+    border-bottom: solid black 1px;
+    text-align: center;
+    float:left;
+    padding-top: 30px;
+}
+
+.table-header {
+    float: left;
+    height: @header-height;
+    width: @schedule-width;
+    background-color: @base-color;
+    color: white;
+    text-align: center;
+    border-right: solid black 1px;
+    border-top: solid black 1px;
+    border-bottom: solid black 1px;
+    padding-top: 5px;
+}
+
+.table-header.hour {
+    width: @hour-width;
+    clear: both;
+    float:left;
+    border-left: solid black 1px;
+    border-right: solid black 1px;
+    border-bottom: solid black 1px;
+    text-align: center;
+}
+
 .schedule {
   font-size: 9pt;
+  float: left;
+  width: @schedule-width;
+  height: @schedule-height;
+  border-right: solid black 1px;
+  border-bottom: solid black 1px;
+  padding: 8px;
+  overflow: auto;
 
   .time {
     color: @light-gray;

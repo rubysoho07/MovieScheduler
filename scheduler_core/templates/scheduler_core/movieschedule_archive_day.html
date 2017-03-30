@@ -35,42 +35,43 @@ Movie Scheduler | {{ day }}
 <!-- End of navigation of date. -->
 <!-- Schedule list. -->
 <div class="schedules">
-    <table id="schedule_table">
-        <thead>
-            <tr>
-                <th>H</th>
-            {% for bc in bc_list %}
-                <th class="broadcast_{{ bc.id }}">{{ bc.bc_name }}</th>
+    <div class="schedule-list">
+        <div class="table-header hour">H</div>
+        {% for bc in bc_list %}
+            <div class="table-header broadcast_{{ bc.id }}">{{ bc.bc_name }}</div>
+        {% endfor %}
+        <!-- Fix hour string. -->
+        <div class="hour-fixed">
+            {% for hour in hours %}
+            <div class="hour">{{ hour }}</div>
             {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for program_hour in programs_all %}
-            <tr>
-                <td class="hour">{{ program_hour.hour }}</td>
-                {% for company in program_hour.programs %}
-                    <td class="schedule broadcast_{{ company.company_id }}">
-                        {% for program in company.program_list %}
-                            <p>
-                                <span class="time">{{ program.start_time.minute }}</span>&nbsp;
-                                <span class="title">{{ program.title }}</span>&nbsp;
-                            {% if program.ratings == None %}
-                                <span></span>
-                            {% elif program.ratings == 0 %}
-                                <span class="rating-all">All</span>
-                            {% elif program.ratings == 19 %}
-                                <span class="rating-adult">{{ program.ratings }}</span>
-                            {% else %}
-                                <span class="rating">{{ program.ratings }}</span>
-                            {% endif %}
-                            </p>
-                        {% endfor %}
-                    </td>
-                {% endfor %}
-            </tr>
+        </div>
+        <!-- Show programs -->
+        {% for program_hour in programs_all %}
+        <div class="hour">{{ program_hour.hour }}</div>
+            {% for company in program_hour.programs %}
+                <div class="schedule broadcast_{{ company.company_id }}">
+                    {% for program in company.program_list %}
+                    <p>
+                        <span class="time">{{ program.start_time.minute }}</span>&nbsp;
+                        <span class="title">{{ program.title }}</span>&nbsp;
+                        {% if program.ratings == None %}
+                        <span></span>
+                        {% elif program.ratings == 0 %}
+                        <span class="rating-all">All</span>
+                        {% elif program.ratings == 19 %}
+                        <span class="rating-adult">{{ program.ratings }}</span>
+                        {% else %}
+                        <span class="rating">{{ program.ratings }}</span>
+                        {% endif %}
+                        <br>
+                    </p>
+                    {% endfor %}
+
+                </div>
             {% endfor %}
-        </tbody>
-    </table>
+        {% endfor %}
+    </div>
 </div>
 <!-- End of schedule list. -->
 <div class="notice">
@@ -90,9 +91,13 @@ Movie Scheduler | {{ day }}
 <script type="text/javascript" src="{% static 'scheduler_core/js/common.js' %}"></script>
 <script type="text/javascript">
 function hideSchedule() {
+    var schedule_list_width = $(".schedule-list").width()
 {% for bc in bc_list %}
     if (getCookie("broadcast_{{ bc.id }}") == "false") {
         $(".broadcast_{{ bc.id }}").hide();
+        $(".schedule-list").width(schedule_list_width - 200)
+        // Reduce width of schedule_list.
+        schedule_list_width = schedule_list_width - 200;
     }
 {% endfor %}
 }
@@ -101,7 +106,7 @@ $(document).ready(function() {
     $('#schedule_table').fxdHdrCol({
         fixedCols: 1,
         width: "100%",
-        height: "100%",
+        height: "546px",
         colModal: [
             { width: 30, align: 'center' },
             { width: 150, align: 'center' },
