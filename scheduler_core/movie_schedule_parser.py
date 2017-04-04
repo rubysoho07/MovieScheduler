@@ -139,7 +139,6 @@ class MovieScheduleParser(object):
     def get_kakao_tv_schedule():
         """Get Kakao TV Movie/Animation Schedule."""
 
-
         original_page = MovieScheduleParser.get_original_data(
             "http://kakao-tv.tistory.com/category/PLAYY%20%ED%8E%B8%EC%84%B1%ED%91%9C"
         )
@@ -304,6 +303,17 @@ class MovieScheduleParser(object):
             return 5
 
     @staticmethod
+    def get_tcast_next_week_page(start_date, date_range, wait, driver):
+        """Get next week schedule page from t.cast channels."""
+
+        while MovieScheduleParser.check_tcast_date_range(start_date, date_range) is not True:
+            driver.find_element_by_xpath("//span[@class='next']/a").click()
+            _ = wait.until(expected_conditions.element_to_be_clickable((By.XPATH, "//span[@class='next']/a")))
+            date_range = BeautifulSoup(driver.page_source, 'html.parser').find_all('th')
+
+        return driver
+
+    @staticmethod
     def get_tcast_channel_schedules(channel, url, start_date):
         """Get t.cast channel schedule until no schedule exists. And return last update date. """
 
@@ -314,11 +324,7 @@ class MovieScheduleParser(object):
         date_range = BeautifulSoup(driver.page_source, 'html.parser').find_all('th')
         wait = WebDriverWait(driver, 8)
 
-        while MovieScheduleParser.check_tcast_date_range(start_date, date_range) is not True:
-            # Move to schedule page of next week.
-            driver.find_element_by_xpath("//span[@class='next']/a").click()
-            _ = wait.until(expected_conditions.element_to_be_clickable((By.XPATH, "//span[@class='next']/a")))
-            date_range = BeautifulSoup(driver.page_source, 'html.parser').find_all('th')
+        driver = MovieScheduleParser.get_tcast_next_week_page(start_date, date_range, wait, driver)
 
         # Get one day's schedule iteratively.
         start_hour = MovieScheduleParser.get_tcast_start_hour(channel)
@@ -333,12 +339,7 @@ class MovieScheduleParser(object):
             schedules = MovieScheduleParser.get_tcast_daily_schedule(schedule_table, end_date, start_hour)
 
             if schedules is None:
-                while MovieScheduleParser.check_tcast_date_range(end_date, date_range) is not True:
-                    # Move to schedule page of next week.
-                    driver.find_element_by_xpath("//span[@class='next']/a").click()
-                    _ = wait.until(expected_conditions.element_to_be_clickable((By.XPATH, "//span[@class='next']/a")))
-                    date_range = BeautifulSoup(driver.page_source, 'html.parser').find_all('th')
-
+                driver = MovieScheduleParser.get_tcast_next_week_page(end_date, date_range, wait, driver)
                 schedule_table = BeautifulSoup(driver.page_source, 'html.parser').find('tbody')
                 schedules = MovieScheduleParser.get_tcast_daily_schedule(schedule_table, end_date, start_hour)
 

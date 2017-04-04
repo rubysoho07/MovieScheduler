@@ -111,11 +111,11 @@ class TCastScheduleTestCase(TestCase):
         """Test to get t.cast channel schedule."""
 
         end_date = MovieScheduleParser.get_tcast_channel_schedules(
-            self.channel,
-            "http://www.imtcast.com/cinef/program/schedule.jsp",
-            timezone.datetime(2017, 3, 24, tzinfo=timezone.get_current_timezone()))
+            self.channel, "http://www.imtcast.com/cinef/program/schedule.jsp",
+            timezone.now()
+        )
 
-        self.assertEqual(end_date.day, 1)
+        self.assertEqual(end_date.day, 10)
         self.assertEqual(end_date.month, 4)
 
     def test_get_tcast_next_schedule(self):
