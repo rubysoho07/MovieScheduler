@@ -11,29 +11,13 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-import json
 
 import dj_database_url
-
-from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Read JSON config file (From "Two Scoops of Django" book.)
-with open("settings.json") as f:
-    secrets = json.loads(f.read())
-
-
-def get_secret(setting, secret=secrets):
-    """ Get secret variables, or return exception. """
-    try:
-        return secret[setting]
-    except KeyError:
-        error_msg = "Set the {0} environment variable".format(setting)
-        raise ImproperlyConfigured(error_msg)
-
-SECRET_KEY = get_secret('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
