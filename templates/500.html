@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title> MovieScheduler :: 500 Internal Server Error
+		</title>
+
+		<!-- Favicon -->
+        <link rel="shortcut icon" type="image/png" href="http://moviescheduler.gonigoni.kr/static/scheduler_core/img/favicon.a61732cb78a2.ico"/>
+
+        <style type="text/css">
+            @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+            body {
+              font-family: 'Noto Sans KR', sans-serif;
+            }
+
+            a {
+                text-decoration: none;
+            }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
+            .header-img {
+                width: 900px;
+                height: 400px;
+                text-align: center;
+                margin-top: 30px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .container {
+                width: 900px;
+                height: 500px;
+                text-align: center;
+                margin-top: 30px;
+                margin-bottom: 30px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .footer {
+                font-size: 9pt;
+                color: #6f6f6f;
+            }
+        </style>
+	</head>
+	<body>
+        <div class="header-img">
+            <img src="https://s3.ap-northeast-2.amazonaws.com/moviescheduler-statics/images/movie_scheduler_error_header.png" />
+        </div>
+        <div class="container">
+            <h1>500 Error | 서버 내부 오류입니다.</h1>
+            <p>
+                동일 오류를 계속하여 겪으시면, 연락 주시기 바랍니다.
+            </p>
+            <p><a href="http://moviescheduler.gonigoni.kr">MovieScheduler 홈으로 이동</a> </p>
+            <hr style="border:none; height:1px; color: #6f6f6f; background-color: #6f6f6f;"/>
+            <p class="footer">2016~2017 April Station Lab / Yungon Park</p>
+        </div>
+    </body>
+</html>
