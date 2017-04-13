@@ -87,7 +87,6 @@ Movie Scheduler | {{ day }}
 {% endblock %}
 
 {% block additional_script %}
-<script type="text/javascript" src="{% static 'scheduler_core/js/fixed_table_rc.js' %}"></script>
 <script type="text/javascript" src="{% static 'scheduler_core/js/common.js' %}"></script>
 <script type="text/javascript">
 function hideSchedule() {
@@ -103,24 +102,6 @@ function hideSchedule() {
 }
 
 $(document).ready(function() {
-    $('#schedule_table').fxdHdrCol({
-        fixedCols: 1,
-        width: "100%",
-        height: "546px",
-        colModal: [
-            { width: 30, align: 'center' },
-            { width: 150, align: 'center' },
-            { width: 150, align: 'center' },
-            { width: 150, align: 'center' },
-            { width: 150, align: 'center' },
-            { width: 150, align: 'center' },
-            { width: 150, align: 'center' },
-            { width: 150, align: 'center' },
-            { width: 150, align: 'center' },
-            { width: 150, align: 'center' },
-        ]
-    });
-
     hideSchedule();
 });
 </script>
