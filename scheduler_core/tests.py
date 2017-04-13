@@ -2,7 +2,7 @@
 from django.test import TestCase
 from scheduler_core.models import BroadcastCompany
 from scheduler_core.movie_schedule_parser import MovieScheduleParser
-import tasks
+from . import tasks
 from django.utils import timezone
 from bs4 import BeautifulSoup
 

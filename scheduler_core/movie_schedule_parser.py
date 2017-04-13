@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
     Movie Schedule Parser.
     2017.02.21 Yungon Park
@@ -62,7 +62,7 @@ class MovieScheduleParser(object):
 
         schedule_list = []
 
-        last_hour = 0       # Hour of last schedule
+        last_hour = 0  # Hour of last schedule
         for item in schedule_table:
             schedule = MovieScheduleParser.parse_cj_schedule_item(item, schedule_date)
 
