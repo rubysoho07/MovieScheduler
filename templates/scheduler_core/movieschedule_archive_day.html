@@ -44,14 +44,14 @@ Movie Scheduler | {{ day }}
         <!-- Fix hour string. -->
         <div class="hour-fixed">
             {% for hour in hours %}
-            <div class="hour">{{ hour }}</div>
+            <div class="hour hour-{{ hour }}">{{ hour }}</div>
             {% endfor %}
         </div>
         <!-- Show programs -->
         {% for program_hour in programs_all %}
-        <div class="hour">{{ program_hour.hour }}</div>
+            <div class="hour hour-{{ program_hour.hour }}">{{ program_hour.hour }}</div>
             {% for company in program_hour.programs %}
-                <div class="schedule broadcast_{{ company.company_id }}">
+                <div class="schedule broadcast_{{ company.company_id }} hour-{{ program_hour.hour }}">
                     {% for program in company.program_list %}
                         {% show_schedule %}
                     {% endfor %}
@@ -91,8 +91,21 @@ function hideSchedule() {
 {% endfor %}
 }
 
+function checkOverflow() {
+    $('.schedule').each(function() {
+        if (this.scrollHeight > this.offsetHeight) {
+            var className = $(this).attr('class');
+            var hourClass = '.' + className.split(' ')[2];
+            var height = $(this).height();
+            $(hourClass).css('height', height + 40);
+        }
+    });
+}
+
 $(document).ready(function() {
     hideSchedule();
+
+    checkOverflow();
 });
 </script>
 {% endblock %}
