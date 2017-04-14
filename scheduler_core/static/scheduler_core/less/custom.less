@@ -7,6 +7,7 @@
 @schedule-height: 80px;
 @supported-companies: 9;
 @hour-width: 30px;
+@table-margin: 5px;
 
 a {
   color: @base-color;
@@ -20,6 +21,11 @@ body {
   font-family: 'Noto Sans KR', sans-serif;
 }
 
+.header {
+  background-color: @base-color;
+  height: 52px;
+}
+
 /* Make schedule table scrollable */
 .schedules {
   width: 100%;
@@ -31,19 +37,19 @@ body {
 }
 
 .date-navigation {
-  height: @header-height;
+  height: @header-height * 2;
   width: 100%;
   text-align: center;
 
   .content {
     vertical-align: middle;
     font-size: 1em;
-    padding: 10px 0;
+    padding: (@header-height / 2 + 5) 0;
   }
 }
 
 .goni-padding {
-  height: 30px;
+  height: @header-height;
 }
 
 .hour-fixed {
@@ -139,6 +145,8 @@ body {
   }
 }
 
+/* Custom nav bar */
+
 @bgHighlight    : @base-color + #222;
 @colDefault     : #ffffff;
 @colHighlight   : #ffffff;
@@ -158,9 +166,10 @@ body {
     > a, > a:hover, > a:focus {
       color: @colHighlight;
       background-color: @bgHighlight; }}}
+
 .navbar-default {
   background-color: @base-color;
-  border-color: @bgHighlight;
+  border-color: @base-color;
   .navbar-brand {
     color: @colDefault;
     &:hover, &:focus {
@@ -195,6 +204,7 @@ body {
     color: @colDefault;
     &:hover {
       color: @colHighlight; }}}
+
 @media (max-width: 767px) {
   .navbar-default .navbar-nav .open .dropdown-menu {
     > li > a {

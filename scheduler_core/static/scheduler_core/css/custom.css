@@ -8,6 +8,10 @@ a:hover {
 body {
   font-family: 'Noto Sans KR', sans-serif;
 }
+.header {
+  background-color: #FF8C00;
+  height: 52px;
+}
 /* Make schedule table scrollable */
 .schedules {
   width: 100%;
@@ -17,14 +21,14 @@ body {
   width: 1830px;
 }
 .date-navigation {
-  height: 30px;
+  height: 60px;
   width: 100%;
   text-align: center;
 }
 .date-navigation .content {
   vertical-align: middle;
   font-size: 1em;
-  padding: 10px 0;
+  padding: 20px 0;
 }
 .goni-padding {
   height: 30px;
@@ -109,9 +113,10 @@ body {
 .footer a {
   color: white;
 }
+/* Custom nav bar */
 .navbar-default {
   background-color: #FF8C00;
-  border-color: #ffae22;
+  border-color: #FF8C00;
 }
 .navbar-default .navbar-brand {
   color: #ffffff;

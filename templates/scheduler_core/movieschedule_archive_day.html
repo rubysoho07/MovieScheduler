@@ -6,7 +6,6 @@ Movie Scheduler | {{ day }}
 {% endblock %}
 
 {% block content %}
-{% load scheduler_core_tags %}
 <!-- Navigation of date. -->
 <div class="date-navigation">
     <div class="col-md-4 col-sm-4 col-xs-4">
@@ -30,10 +29,15 @@ Movie Scheduler | {{ day }}
     </div>
 </div>
 <!-- End of navigation of date. -->
+{% endblock %}
+
+{% block schedules %}
+{% load scheduler_core_tags %}
 <!-- Schedule list. -->
 <div class="schedules">
     <div class="schedule-list">
         <div class="table-header hour">H</div>
+        <div class="table-header hour" style="position: absolute;">H</div>
         {% for bc in bc_list %}
             <div class="table-header broadcast_{{ bc.id }}">{{ bc.bc_name }}</div>
         {% endfor %}
@@ -56,6 +60,9 @@ Movie Scheduler | {{ day }}
         {% endfor %}
     </div>
 </div>
+{% endblock %}
+
+{% block notice %}
 <!-- End of schedule list. -->
 <div class="notice">
     <div class="content">
