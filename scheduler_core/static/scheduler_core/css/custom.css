@@ -19,6 +19,8 @@ body {
 }
 .schedule-list {
   width: 1830px;
+  margin: auto;
+  display: block;
 }
 .date-navigation {
   height: 60px;
