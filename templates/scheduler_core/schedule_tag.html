@@ -1,0 +1,15 @@
+<p>
+    <span class="time">{{ program.start_time.minute }}</span>&nbsp;
+
+    <span class="title">{{ program.title }}</span>&nbsp;
+    {% if program.ratings == None %}
+        <span></span>
+    {% elif program.ratings == 0 %}
+        <span class="rating-all">All</span>
+    {% elif program.ratings == 19 %}
+        <span class="rating-adult">{{ program.ratings }}</span>
+    {% else %}
+        <span class="rating">{{ program.ratings }}</span>
+    {% endif %}
+    <br>
+</p>

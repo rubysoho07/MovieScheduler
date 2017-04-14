@@ -6,6 +6,7 @@ Movie Scheduler | {{ day }}
 {% endblock %}
 
 {% block content %}
+{% load scheduler_core_tags %}
 <!-- Navigation of date. -->
 <div class="date-navigation">
     <div class="col-md-4 col-sm-4 col-xs-4">
@@ -48,22 +49,8 @@ Movie Scheduler | {{ day }}
             {% for company in program_hour.programs %}
                 <div class="schedule broadcast_{{ company.company_id }}">
                     {% for program in company.program_list %}
-                    <p>
-                        <span class="time">{{ program.start_time.minute }}</span>&nbsp;
-                        <span class="title">{{ program.title }}</span>&nbsp;
-                        {% if program.ratings == None %}
-                        <span></span>
-                        {% elif program.ratings == 0 %}
-                        <span class="rating-all">All</span>
-                        {% elif program.ratings == 19 %}
-                        <span class="rating-adult">{{ program.ratings }}</span>
-                        {% else %}
-                        <span class="rating">{{ program.ratings }}</span>
-                        {% endif %}
-                        <br>
-                    </p>
+                        {% show_schedule %}
                     {% endfor %}
-
                 </div>
             {% endfor %}
         {% endfor %}
