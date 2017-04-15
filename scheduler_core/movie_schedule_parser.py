@@ -136,62 +136,6 @@ class MovieScheduleParser(object):
         return MovieScheduleParser.get_cj_daily_schedule(schedule_date, schedule_table)
 
     @staticmethod
-    def get_kakao_tv_schedule():
-        """Get Kakao TV Movie/Animation Schedule."""
-
-        original_page = MovieScheduleParser.get_original_data(
-            "http://kakao-tv.tistory.com/category/PLAYY%20%ED%8E%B8%EC%84%B1%ED%91%9C"
-        )
-
-        # Get first article to get schedule for next week.
-        first_article = original_page.find('div', class_='article')
-        schedules_table = first_article.find_all('table')
-
-        movie_schedule = MovieScheduleParser.parse_kakao_tv_schedule(schedules_table[0])
-        animation_schedule = MovieScheduleParser.parse_kakao_tv_schedule(schedules_table[1])
-
-        return movie_schedule, animation_schedule
-
-    @staticmethod
-    def parse_kakao_tv_schedule(table):
-        """Parse Kakao TV Schedule."""
-
-        schedule_list = []
-
-        # Ignore first row.
-        first_row = table.find('tr')
-        all_schedules = first_row.find_next_siblings('tr')
-
-        for schedule in all_schedules:
-            schedule_dict = dict()
-
-            schedule_column = schedule.find_all('td')
-
-            start_datetime = MovieScheduleParser.make_kakao_schedule_time(
-                schedule_column[0].text, schedule_column[1].text)
-            end_datetime = MovieScheduleParser.make_kakao_schedule_time(
-                schedule_column[0].text, schedule_column[2].text)
-
-            if start_datetime > end_datetime:
-                end_datetime = end_datetime + timezone.timedelta(days=1)
-
-            schedule_dict['start_time'] = timezone.make_aware(start_datetime, timezone.get_current_timezone())
-            schedule_dict['end_time'] = timezone.make_aware(end_datetime, timezone.get_current_timezone())
-
-            schedule_dict['title'] = schedule_column[3].text
-            schedule_dict['rating'] = None
-
-            schedule_list.append(schedule_dict)
-
-        return schedule_list
-
-    @staticmethod
-    def make_kakao_schedule_time(date, time):
-        """Make a datetime object with date & time string."""
-
-        return dateparse.parse_datetime(date + " " + time)
-
-    @staticmethod
     def make_schedule_object(broadcast_company, schedule):
         """Make MovieSchedule object with broadcast_company and dictionary for schedule."""
 

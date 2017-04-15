@@ -34,32 +34,6 @@ def save_cj_channel_schedule(channel_name, url_pattern):
         schedules = MovieScheduleParser.get_cj_channels(url_pattern + date_str)
 
 
-@shared_task(max_retries=2, default_retry_delay=60 * 60)
-def save_kakao_tv_schedule():
-    """Get Kakao TV Movie/Animation Channel Schedule."""
-
-    movie_schedule, animation_schedule = MovieScheduleParser.get_kakao_tv_schedule()
-
-    movie_channel, _ = BroadcastCompany.objects.get_or_create(bc_name="PLAYY Movie")
-    animation_channel, _ = BroadcastCompany.objects.get_or_create(bc_name="PLAYY Animation")
-
-    # Save schedules
-    if movie_channel is not None:
-        MovieScheduleParser.save_schedule(movie_channel, movie_schedule)
-
-    if animation_channel is not None:
-        MovieScheduleParser.save_schedule(animation_channel, animation_schedule)
-
-    # Update latest update date.
-    movie_channel_last_update, _ = LatestUpdate.objects.get_or_create(broadcast_company=movie_channel)
-    movie_channel_last_update.latest_update = timezone.now()
-    movie_channel_last_update.save()
-
-    animation_channel_last_update, _ = LatestUpdate.objects.get_or_create(broadcast_company=animation_channel)
-    animation_channel_last_update.latest_update = timezone.now()
-    animation_channel_last_update.save()
-
-
 @shared_task(max_retries=2, default_retry_delay=60*60)
 def save_tcast_channel_schedule(channel_name, url):
     """Get t.cast channel schedule."""

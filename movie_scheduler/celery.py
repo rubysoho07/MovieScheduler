@@ -48,12 +48,6 @@ app.conf.beat_schedule = {
         'schedule': crontab(minute=34, hour=1),
         'args': ("CatchOn2", "http://catchon.tving.com/catchon/schedule2?startDate="),
     },
-    # Get schedule from kakaoTV.
-    'get_kakao_tv_schedule': {
-        'task': 'scheduler_core.tasks.save_kakao_tv_schedule',
-        'schedule': crontab(minute=30, hour=6, day_of_week='sun'),
-        'args': (),
-    },
     # Get schedule from t.cast channels.
     'get_screen_schedule': {
         'task': 'scheduler_core.tasks.save_tcast_channel_schedule',

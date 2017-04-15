@@ -9,7 +9,7 @@ class BroadcastCompany(models.Model):
 
     bc_name = models.CharField(max_length=100, unique=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.bc_name
 
 
