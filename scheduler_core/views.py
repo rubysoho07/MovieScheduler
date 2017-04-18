@@ -13,6 +13,7 @@ class MovieScheduleDAV(DayArchiveView):
     model = MovieSchedule
     date_field = 'start_time'
     allow_future = True
+    month_format = "%m"
 
     def get_context_data(self, **kwargs):
         context = super(MovieScheduleDAV, self).get_context_data(**kwargs)

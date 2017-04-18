@@ -11,7 +11,7 @@ Movie Scheduler | {{ day }}
     <div class="col-md-4 col-sm-4 col-xs-4">
         <div class="content">
             {% if previous_day %}
-               <a href="{% url 'day' previous_day|date:'Y' previous_day|date:'b' previous_day|date:'d' %}">&laquo; {{ previous_day }}</a>
+               <a href="{% url 'day' previous_day|date:'Y' previous_day|date:'m' previous_day|date:'d' %}">&laquo; {{ previous_day }}</a>
             {% endif %}
         </div>
     </div>
@@ -23,7 +23,7 @@ Movie Scheduler | {{ day }}
     <div class="col-md-4 col-sm-4 col-xs-4">
         <div class="content">
             {% if next_day %}
-                <a href="{% url 'day' next_day|date:'Y' next_day|date:'b' next_day|date:'d' %}">{{ next_day }} &raquo;</a>
+                <a href="{% url 'day' next_day|date:'Y' next_day|date:'m' next_day|date:'d' %}">{{ next_day }} &raquo;</a>
             {% endif %}
         </div>
     </div>
