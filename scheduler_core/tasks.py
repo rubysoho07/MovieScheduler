@@ -18,6 +18,7 @@ from scheduler_core.models import BroadcastCompany, LatestUpdate
 
 # Create your tasks here.
 def send_error_report(url, exception, trace):
+    """Send email when an error occurs."""
     if settings.DEBUG is False:
         email_context = {
             'site': url,
