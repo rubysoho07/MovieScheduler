@@ -22,6 +22,9 @@ class MovieSchedule(models.Model):
     end_time = models.DateTimeField(blank=True, null=True)
     ratings = models.SmallIntegerField(blank=True, null=True)
 
+    def __str__(self):
+        return str(self.broadcast_company) + " / " + str(self.title)
+
 
 class LatestUpdate(models.Model):
     """Save last update date for a cable movie channel"""
