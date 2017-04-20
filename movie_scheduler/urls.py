@@ -15,12 +15,20 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from scheduler_core.views import *
+from scheduler_core import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$', MovieScheduleDAV.as_view(), name='day'),
-    url(r'^$', MovieScheduleTAV.as_view(), name='today_schedule'),
-    url(r'^license/$', LicenseTemplateView.as_view(), name='license'),
-    url(r'^setting/$', BroadcastCompanyDisplaySettingView.as_view(), name='setting'),
+    url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$', views.MovieScheduleDAV.as_view(), name='day'),
+    url(r'^$', views.MovieScheduleTAV.as_view(), name='today_schedule'),
+    url(r'^license/$', views.LicenseTemplateView.as_view(), name='license'),
+    url(r'^setting/$', views.BroadcastCompanyDisplaySettingView.as_view(), name='setting'),
+
+    url(r'^broadcast/(?P<pk>\d+)/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$',
+        views.BroadcastDailyScheduleDAV.as_view(), name='daily_schedule'),
+    url(r'^broadcast/all/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$',
+        views.AllBroadcastDailyScheduleDAV.as_view(), name='daily_schedule'),
+
+    url(r'^broadcast/today/(?P<pk>\d+)/$', views.BroadcastTodayScheduleView.as_view(), name='today_schedule'),
+    url(r'^broadcast/today/all/$', views.AllBroadcastTodayScheduleView.as_view(), name='today_all_schedule'),
 ]
