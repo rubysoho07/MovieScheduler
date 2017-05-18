@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
-from scheduler_core.models import BroadcastCompany
+from scheduler_core.models import BroadcastCompany, MovieSchedule
 from scheduler_core.movie_schedule_parser import CJScheduleParser, TCastScheduleParser
 from . import tasks
 from django.utils import timezone
@@ -108,3 +108,27 @@ class TCastScheduleTestCase(TestCase):
 
         self.assertEqual(end_date.day, 28)
         self.assertEqual(end_date.month, 4)
+
+
+class DeleteLastWeekScheduleTest(TestCase):
+    """Test to delete schedules of last week."""
+
+    def setUp(self):
+        """Make schedules from 3 days ago to 2 days after today."""
+        self.channel, _ = BroadcastCompany.objects.get_or_create(bc_name="Screen")
+
+        day_list = list(range(-2, 3))
+
+        for day in day_list:
+            start_date = timezone.datetime.today() + timezone.timedelta(days=day)
+            new_schedule = MovieSchedule(title="Test", broadcast_company=self.channel, start_time=start_date)
+            new_schedule.save()
+
+    def test_deleting_schedule(self):
+        """Test whether schedule deleting method is working."""
+        self.assertEqual(MovieSchedule.objects.all().count(), 5)
+
+        today_date = timezone.datetime.today() - timezone.timedelta(days=1)
+        MovieSchedule.objects.filter(start_time__lt=today_date).delete()
+
+        self.assertEqual(MovieSchedule.objects.all().count(), 3)

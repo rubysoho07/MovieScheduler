@@ -13,7 +13,7 @@ from django.utils import timezone
 from celery import shared_task
 
 from scheduler_core.movie_schedule_parser import CJScheduleParser, TCastScheduleParser
-from scheduler_core.models import BroadcastCompany, LatestUpdate
+from scheduler_core.models import BroadcastCompany, LatestUpdate, MovieSchedule
 
 
 # Create your tasks here.
@@ -84,3 +84,13 @@ def save_tcast_channel_schedule(channel_name, url):
             last_date.save()
     except Exception as e:
         send_error_report(url, e, traceback.format_exc())
+
+
+@shared_task(max_retries=2, default_retry_delay=60*60)
+def clear_last_week_schedule():
+    """Delete all schedules before 1 week."""
+    try:
+        today_date = timezone.datetime.today() - timezone.timedelta(days=1)
+        MovieSchedule.objects.filter(start_time__lt=today_date).delete()
+    except Exception as e:
+        send_error_report(None, e, traceback.format_exc())

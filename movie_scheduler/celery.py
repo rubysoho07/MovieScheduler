@@ -48,6 +48,7 @@ app.conf.beat_schedule = {
         'schedule': crontab(minute=34, hour=1),
         'args': ("CatchOn2", "http://catchon.tving.com/catchon/schedule2?startDate="),
     },
+
     # Get schedule from t.cast channels.
     'get_screen_schedule': {
         'task': 'scheduler_core.tasks.save_tcast_channel_schedule',
@@ -58,6 +59,13 @@ app.conf.beat_schedule = {
         'task': 'scheduler_core.tasks.save_tcast_channel_schedule',
         'schedule': crontab(minute=32, hour=4),
         'args': ("Cinef", "http://www.imtcast.com/cinef/program/schedule.jsp"),
+    },
+
+    # Delete schedule of last week.
+    'delete_last_week_schedule': {
+        'task': 'scheduler_core.tasks.clear_last_week_schedule',
+        'schedule': crontab(minute=0, hour=3, day_of_week='mon'),
+        'args': (),
     },
 }
 
