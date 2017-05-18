@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 from scheduler_core.models import BroadcastCompany
-from scheduler_core.movie_schedule_parser import MovieScheduleParser, CJScheduleParser, TCastScheduleParser
+from scheduler_core.movie_schedule_parser import CJScheduleParser, TCastScheduleParser
 from . import tasks
 from django.utils import timezone
 from bs4 import BeautifulSoup
