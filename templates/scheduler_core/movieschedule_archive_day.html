@@ -97,7 +97,26 @@ function checkOverflow() {
     });
 }
 
+function checkCookieExistent() {
+    var bcCount = {{ bc_list|length }};
+    var noCount = 0;
+{% for bc in bc_list %}
+    if (getCookie("broadcast_{{ bc.id }}").length == 0) {
+        noCount++;
+    }
+{% endfor %}
+
+    if (bcCount == noCount)
+        return false;
+    else
+        return true;
+}
+
 $(document).ready(function() {
+    if (checkCookieExistent() == false) {
+        location.href = '{% url 'setting' %}'
+    }
+
     hideSchedule();
 
     checkOverflow();
