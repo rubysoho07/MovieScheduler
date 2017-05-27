@@ -8,10 +8,6 @@ a:hover {
 body {
   font-family: 'Noto Sans KR', sans-serif;
 }
-.header {
-  background-color: #FF8C00;
-  height: 52px;
-}
 /* Make schedule table scrollable */
 .schedules {
   width: 100%;
