@@ -82,6 +82,8 @@ def save_tcast_channel_schedule(channel_name, url):
         if latest_update_date is not None:
             last_date.latest_update = latest_update_date
             last_date.save()
+
+        print("[" + channel_name + "] Last update date : " + str(last_date.latest_update))
     except Exception as e:
         send_error_report(url, e, traceback.format_exc())
 
