@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
+from django.db.models import Q
 from scheduler_core.models import BroadcastCompany, MovieSchedule
 from scheduler_core.movie_schedule_parser import CJScheduleParser, TCastScheduleParser
 from . import tasks
@@ -132,3 +133,49 @@ class DeleteLastWeekScheduleTest(TestCase):
         MovieSchedule.objects.filter(start_time__lt=today_date).delete()
 
         self.assertEqual(MovieSchedule.objects.all().count(), 3)
+
+
+class ModifyTodayScheduleTest(TestCase):
+    """Test to modify today's schedule. (For CJ E&M channels)"""
+
+    def setUp(self):
+        """Make old schedules example."""
+        self.channel, _ = BroadcastCompany.objects.get_or_create(bc_name="Screen")
+        start_time = timezone.datetime(2017, 6, 30, 1, 30, 0)
+
+        for i in range(5):
+            new_schedule = MovieSchedule(title="test", broadcast_company=self.channel, start_time=start_time)
+            new_schedule.save()
+            start_time = start_time + timezone.timedelta(hours=1)
+
+    def test_modify_schedule(self):
+        """Change schedule time."""
+        schedules = MovieSchedule.objects.all()
+
+        self.assertEqual(schedules[0].start_time.hour, 1)
+        self.assertEqual(schedules[0].start_time.minute, 30)
+
+        self.assertEqual(schedules[len(schedules)-1].start_time.hour, 5)
+        self.assertEqual(schedules[len(schedules)-1].start_time.minute, 30)
+
+        new_start_time = timezone.datetime(2017, 6, 30, 2, 00, 0) - timezone.timedelta(minutes=30)
+        new_end_time = timezone.datetime(2017, 6, 30, 6, 00, 0) + timezone.timedelta(minutes=30)
+
+        old_schedules = MovieSchedule.objects.filter(Q(start_time__range=(new_start_time, new_end_time)) &
+                                                     Q(broadcast_company=self.channel))
+        old_schedules.delete()
+
+        new_start_time = new_start_time + timezone.timedelta(minutes=30)
+
+        for i in range(5):
+            new_schedule = MovieSchedule(title="test", broadcast_company=self.channel, start_time=new_start_time)
+            new_schedule.save()
+            new_start_time = new_start_time + timezone.timedelta(hours=1)
+
+        new_schedules = MovieSchedule.objects.all()
+
+        self.assertEqual(new_schedules[0].start_time.hour, 2)
+        self.assertEqual(new_schedules[0].start_time.minute, 0)
+
+        self.assertEqual(new_schedules[len(new_schedules)-1].start_time.hour, 6)
+        self.assertEqual(new_schedules[len(new_schedules)-1].start_time.minute, 0)

@@ -10,6 +10,8 @@ from django.template.loader import get_template
 
 from django.utils import timezone
 
+from django.db.models import Q
+
 from celery import shared_task
 
 from scheduler_core.movie_schedule_parser import CJScheduleParser, TCastScheduleParser
@@ -96,3 +98,33 @@ def clear_last_week_schedule():
         MovieSchedule.objects.filter(start_time__lt=today_date).delete()
     except Exception as e:
         send_error_report(None, e, traceback.format_exc())
+
+
+@shared_task()
+def get_modified_cj_schedule(channel_name, url_pattern):
+    """Modify today's schedule of CJ E&M channels."""
+    parser = CJScheduleParser()
+    date_str = None
+
+    try:
+        channel = BroadcastCompany.objects.get(bc_name=channel_name)
+
+        date_str = timezone.datetime.strftime(timezone.datetime.today(), "%Y%m%d")
+        schedules = parser.get_channel_schedule(url_pattern + date_str)
+
+        if schedules is not None:
+            start_time = schedules[0]['start_time'] - timezone.timedelta(minutes=30)
+            end_time = schedules[len(schedules)-1]['start_time'] + timezone.timedelta(minutes=30)
+
+            # Remove old schedule. (from start_time to end_time)
+            old_schedules = MovieSchedule.objects.filter(Q(start_time__range=(start_time, end_time)) &
+                                                         Q(broadcast_company=channel))
+            old_schedules.delete()
+
+            # Save schedule.
+            parser.save_schedule(channel, schedules)
+            print("[" + channel_name + "] Schedule has changed.")
+        else:
+            print("[" + channel_name + "] No changes detected.")
+    except Exception as e:
+        send_error_report(url_pattern+date_str, e, traceback.format_exc())

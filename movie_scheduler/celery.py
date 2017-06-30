@@ -61,6 +61,23 @@ app.conf.beat_schedule = {
         'args': ("Cinef", "http://www.imtcast.com/cinef/program/schedule.jsp"),
     },
 
+    # Modify schedule of CJ E&M channels.
+    'modify_ocn_schedule': {
+        'task': 'scheduler_core.tasks.get_modified_cj_schedule',
+        'schedule': crontab(minute=0, hour=2),
+        'args': ("OCN", "http://ocn.tving.com/ocn/schedule?startDate="),
+    },
+    'modify_chcgv_schedule': {
+        'task': 'scheduler_core.tasks.get_modified_cj_schedule',
+        'schedule': crontab(minute=0, hour=2),
+        'args': ("Ch.CGV", "http://chcgv.tving.com/chcgv/schedule?startDate="),
+    },
+    'modify_superaction_schedule': {
+        'task': 'scheduler_core.tasks.get_modified_cj_schedule',
+        'schedule': crontab(minute=0, hour=2),
+        'args': ("SuperAction", "http://superaction.tving.com/superaction/schedule?startDate="),
+    },
+
     # Delete schedule of last week.
     'delete_last_week_schedule': {
         'task': 'scheduler_core.tasks.clear_last_week_schedule',
