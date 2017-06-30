@@ -34,6 +34,10 @@ def send_error_report(url, exception, trace):
                                    settings.ADMINS)
         error_email.content_subtype = 'html'
         error_email.send(fail_silently=False)
+    else:
+        print("Exception: " + str(exception))
+        print("Traceback: ")
+        print(trace)
 
 
 @shared_task(max_retries=2, default_retry_delay=60 * 60)
