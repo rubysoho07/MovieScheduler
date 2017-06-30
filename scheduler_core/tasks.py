@@ -95,6 +95,7 @@ def clear_last_week_schedule():
     """Delete all schedules before 1 week."""
     try:
         today_date = timezone.datetime.today() - timezone.timedelta(days=1)
+        today_date.replace(hour=0, minute=0)
         MovieSchedule.objects.filter(start_time__lt=today_date).delete()
     except Exception as e:
         send_error_report(None, e, traceback.format_exc())
