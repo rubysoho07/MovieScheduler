@@ -7,7 +7,6 @@ from django.conf import settings
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'movie_scheduler.settings')
 
-# Include scheduler_core.tasks to import
 app = Celery('movie_scheduler')
 
 # Using a string here means the worker don't have to serialize
