@@ -122,7 +122,7 @@ class CJScheduleParser(MovieScheduleParser):
         for item in table:
             schedule = self.parse_schedule_item(item, date)
 
-            if schedule['start_time'].hour < last_hour:
+            if schedule['start_time'].hour < last_hour and last_hour >= 22:
                 # Move to next day's schedule.
                 schedule['start_time'] = schedule['start_time'] + timezone.timedelta(days=1)
                 schedule['end_time'] = schedule['end_time'] + timezone.timedelta(days=1)
