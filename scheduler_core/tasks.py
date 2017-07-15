@@ -128,8 +128,8 @@ def get_modified_cj_schedule(channel_name, url_pattern):
 
             # Save schedule.
             parser.save_schedule(channel, schedules)
-            print("[" + channel_name + "] Schedule has changed.")
+            print("[" + channel_name + " / " + date_str + "] Schedule has changed.")
         else:
-            print("[" + channel_name + "] No changes detected.")
+            print("[" + channel_name + " / " + date_str + "] No changes detected.")
     except Exception as e:
         send_error_report(url_pattern+date_str, e, traceback.format_exc())
