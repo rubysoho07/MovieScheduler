@@ -30,7 +30,7 @@ class MovieScheduleParser(object):
         return BeautifulSoup(data.text, "html.parser")
 
     @staticmethod
-    def parse_string_to_int(duration, default):
+    def parse_string_to_int(duration, default=0):
         """Try to parse string to int, or return default value."""
 
         try:
