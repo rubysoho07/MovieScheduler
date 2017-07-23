@@ -1,5 +1,7 @@
 # MovieScheduler
 
+[![Build Status](https://travis-ci.org/rubysoho07/MovieScheduler.svg?branch=master)](https://travis-ci.org/rubysoho07/MovieScheduler)
+
 국내 영화 채널의 편성표를 한 곳에서 모아 보실 수 있습니다.
 
 현재 지원하는 방송사는 다음과 같습니다.
