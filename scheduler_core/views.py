@@ -75,7 +75,7 @@ class JSONResponseMixin(object):
             self.get_data(context),
             json_dumps_params={'ensure_ascii': False},
             safe=False,
-            **response_kwargs,
+            **response_kwargs
         )
 
     def get_data(self, context):
