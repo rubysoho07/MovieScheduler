@@ -1,6 +1,7 @@
 # MovieScheduler
 
 [![Build Status](https://travis-ci.org/rubysoho07/MovieScheduler.svg?branch=master)](https://travis-ci.org/rubysoho07/MovieScheduler)
+[![Coverage Status](https://coveralls.io/repos/github/rubysoho07/MovieScheduler/badge.svg)](https://coveralls.io/github/rubysoho07/MovieScheduler)
 
 국내 영화 채널의 편성표를 한 곳에서 모아 보실 수 있습니다.
 
