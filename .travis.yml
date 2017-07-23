@@ -18,4 +18,4 @@ env:
   - DATABASE_URL=postgres:///$(whoami) REDIS_URL=redis://
 
 # Command to run tests
-script: python manage.py test
+script: python manage.py test -v 2
