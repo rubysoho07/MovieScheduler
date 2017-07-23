@@ -15,8 +15,7 @@ services:
 
 # Environment variables.
 env:
-  - DATABASE_URL=postgres:///$(whoami)
-  - REDIS_URL=redis://
+  - DATABASE_URL=postgres:///$(whoami) REDIS_URL=redis://
 
 # Command to run tests
 script: python manage.py test
