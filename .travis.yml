@@ -8,5 +8,10 @@ python:
 # Command to install dependencies
 install: pip install -r requirements.txt
 
+# Add databases.
+services:
+  - postgresql
+  - redis-server
+
 # Command to run tests
 script: python manage.py test
