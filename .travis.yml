@@ -5,6 +5,8 @@ python:
   - "3.5"
   - "3.6"
 
+sudo: enabled
+
 # Command to install dependencies
 install: pip install -r requirements.txt
 
