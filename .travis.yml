@@ -22,6 +22,6 @@ env:
   - DATABASE_URL=postgres:///$(whoami) REDIS_URL=redis://
 
 # Command to run tests
-script: coverage run manage.py test -v 2
+script: coverage run manage.py --source=movie_scheduler,scheduler_core test -v 2
 
 after_success: coveralls
