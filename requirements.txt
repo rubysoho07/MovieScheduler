@@ -4,6 +4,7 @@ billiard
 celery
 dj-database-url
 Django
+djangorestframework
 gunicorn
 kombu
 newrelic

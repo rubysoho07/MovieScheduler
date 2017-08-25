@@ -34,7 +34,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'scheduler_core.apps.SchedulerCoreConfig'
+    'scheduler_core.apps.SchedulerCoreConfig',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,13 @@ EMAIL_USE_SSL = True
 
 ADMINS = [('Yungon', 'hahafree12@gmail.com')]
 SERVER_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
+
+# Configuration for using Django REST Framework.
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'PAGE_SIZE': 10
+}

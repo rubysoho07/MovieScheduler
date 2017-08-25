@@ -7,6 +7,9 @@ from django.db.models import Q
 from django.http import JsonResponse
 from scheduler_core.models import MovieSchedule, BroadcastCompany
 
+from rest_framework import viewsets
+from scheduler_core.serializers import MovieScheduleSerializer
+
 
 # Create your views here.
 class MovieScheduleDAV(DayArchiveView):
@@ -171,3 +174,9 @@ class AllBroadcastTodayScheduleView(AllBroadcastDailyScheduleDAV, TodayArchiveVi
     model = MovieSchedule
     date_field = 'start_time'
     allow_future = True
+
+
+class MovieScheduleViewSet(viewsets.ModelViewSet):
+    """API Endpoint to GET movie schedule."""
+    queryset = MovieSchedule.objects.all()
+    serializer_class = MovieScheduleSerializer
