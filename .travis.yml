@@ -21,6 +21,11 @@ services:
 env:
   - DATABASE_URL=postgres:///$(whoami) REDIS_URL=redis://
 
+# Build for master branch only.
+branches:
+  only:
+    - master
+
 # Command to run tests
 script: coverage run --source=movie_scheduler,scheduler_core manage.py test -v 2
 
