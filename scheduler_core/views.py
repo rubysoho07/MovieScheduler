@@ -1,13 +1,16 @@
 from django.views.generic.base import TemplateView
 from django.views.generic.dates import DayArchiveView, TodayArchiveView
 from django.views.generic.list import ListView
+from django.shortcuts import get_object_or_404
 
 from django.db.models import Q
 
 from django.http import JsonResponse
+
 from scheduler_core.models import MovieSchedule, BroadcastCompany
 
-from rest_framework import viewsets
+from rest_framework import generics
+from rest_framework.response import Response
 from scheduler_core.serializers import MovieScheduleSerializer
 
 
@@ -176,7 +179,18 @@ class AllBroadcastTodayScheduleView(AllBroadcastDailyScheduleDAV, TodayArchiveVi
     allow_future = True
 
 
-class MovieScheduleViewSet(viewsets.ModelViewSet):
-    """API Endpoint to GET movie schedule."""
-    queryset = MovieSchedule.objects.all()
+class MovieScheduleCompanyDailyView(generics.ListAPIView):
+    """API Endpoint to GET daily movie schedule for a broadcast company."""
+    queryset = MovieSchedule.objects.all()      # Must set 'queryset' or override 'get_queryset()' method
     serializer_class = MovieScheduleSerializer
+
+    def get(self, request, pk, year, month, day, format=None):
+        """Get daily schedule for a broadcast company from database."""
+        broadcast_company = get_object_or_404(BroadcastCompany, id=pk)
+
+        queryset = MovieSchedule.objects.filter(Q(broadcast_company=broadcast_company) &
+                                                Q(start_time__day=day, start_time__month=month, start_time__year=year))
+
+        # 'many=True' option makes MovieScheduleSerializer return ListSerializer.
+        serializer = MovieScheduleSerializer(queryset, many=True)
+        return Response(serializer.data)

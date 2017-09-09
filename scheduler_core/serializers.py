@@ -6,4 +6,4 @@ class MovieScheduleSerializer(serializers.ModelSerializer):
     """Serializer for Movie Schedule."""
     class Meta:
         model = MovieSchedule
-        fields = ('broadcast_company', 'title', 'start_time', 'ratings')
+        fields = ('title', 'start_time', 'ratings')
