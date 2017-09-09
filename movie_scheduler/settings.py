@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'scheduler_core.apps.SchedulerCoreConfig',
-    'rest_framework'
+    'rest_framework',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
@@ -151,5 +152,4 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
-    'PAGE_SIZE': 10
 }

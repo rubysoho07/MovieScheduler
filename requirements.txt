@@ -4,6 +4,7 @@ billiard
 celery
 dj-database-url
 Django
+django-extensions
 djangorestframework
 gunicorn
 kombu
@@ -13,5 +14,6 @@ pytz
 redis
 requests
 selenium
+six
 vine
 whitenoise
