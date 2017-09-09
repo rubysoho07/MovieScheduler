@@ -26,5 +26,6 @@ urlpatterns = [
 
     # Schedule and movie channel API.
     url(r'^api/schedules/(?P<pk>\d+)/date/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$',
-        views.MovieScheduleCompanyDailyView.as_view(), name='broadcast_company_daily_schedule')
+        views.MovieScheduleCompanyDailyView.as_view(), name='broadcast_company_daily_schedule'),
+    url(r'^api/companies/$', views.BroadcastCompanyView.as_view(), name='broadcast_company_info')
 ]

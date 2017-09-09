@@ -9,7 +9,7 @@ from scheduler_core.models import MovieSchedule, BroadcastCompany
 
 from rest_framework import generics
 from rest_framework.response import Response
-from scheduler_core.serializers import MovieScheduleSerializer
+from scheduler_core.serializers import MovieScheduleSerializer, BroadcastCompanySerializer
 
 
 # Create your views here.
@@ -85,4 +85,17 @@ class MovieScheduleCompanyDailyView(generics.ListAPIView):
 
         # 'many=True' option makes MovieScheduleSerializer return ListSerializer.
         serializer = MovieScheduleSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class BroadcastCompanyView(generics.ListAPIView):
+    """API Endpoint to GET information of broadcast companies."""
+
+    queryset = BroadcastCompany.objects.all()
+    serializer_class = BroadcastCompanySerializer
+
+    def get(self, request, *args, **kwargs):
+        queryset = BroadcastCompany.objects.all()
+        # 'many=True' option makes BroadcastCompanySerializer return ListSerializer.
+        serializer = BroadcastCompanySerializer(queryset, many=True)
         return Response(serializer.data)
