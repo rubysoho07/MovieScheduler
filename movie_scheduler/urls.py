@@ -24,14 +24,7 @@ urlpatterns = [
     url(r'^license/$', views.LicenseTemplateView.as_view(), name='license'),
     url(r'^setting/$', views.BroadcastCompanyDisplaySettingView.as_view(), name='setting'),
 
-    url(r'^broadcast/(?P<pk>\d+)/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$',
-        views.BroadcastDailyScheduleDAV.as_view(), name='daily_schedule'),
-    url(r'^broadcast/all/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$',
-        views.AllBroadcastDailyScheduleDAV.as_view(), name='daily_schedule'),
-
-    url(r'^broadcast/today/(?P<pk>\d+)/$', views.BroadcastTodayScheduleView.as_view(), name='today_schedule'),
-    url(r'^broadcast/today/all/$', views.AllBroadcastTodayScheduleView.as_view(), name='today_all_schedule'),
-
+    # Schedule and movie channel API.
     url(r'^api/schedules/(?P<pk>\d+)/date/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$',
         views.MovieScheduleCompanyDailyView.as_view(), name='broadcast_company_daily_schedule')
 ]
