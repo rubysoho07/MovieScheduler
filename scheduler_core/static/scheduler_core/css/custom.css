@@ -1,4 +1,7 @@
 @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+html {
+  height: 100%;
+}
 a {
   color: #FF8C00;
 }
@@ -6,6 +9,8 @@ a:hover {
   color: #cc5900;
 }
 body {
+  position: relative;
+  min-height: 100%;
   font-family: 'Noto Sans KR', sans-serif;
 }
 /* Make schedule table scrollable */
@@ -101,6 +106,10 @@ body {
   padding: 7px 0;
 }
 .footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background-color: #FF8C00;
   line-height: 30px;
   color: white;

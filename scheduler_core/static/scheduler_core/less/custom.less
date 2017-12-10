@@ -9,6 +9,10 @@
 @hour-width: 30px;
 @table-margin: 5px;
 
+html {
+  height: 100%;
+}
+
 a {
   color: @base-color;
 
@@ -18,6 +22,8 @@ a {
 }
 
 body {
+  position: relative;
+  min-height: 100%;
   font-family: 'Noto Sans KR', sans-serif;
 }
 
@@ -130,6 +136,10 @@ body {
 }
 
 .footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background-color: @base-color;
   line-height: 30px;
   color: white;
