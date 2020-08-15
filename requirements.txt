@@ -1,16 +1,12 @@
 amqp
-beautifulsoup4
 billiard
-celery
 dj-database-url
 Django
 gunicorn
 kombu
 newrelic
-psycopg2
+psycopg2-binary
 pytz
-redis
 requests
-selenium
 vine
 whitenoise

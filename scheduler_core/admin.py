@@ -12,6 +12,7 @@ class MovieScheduleAdmin(admin.ModelAdmin):
 class LatestUpdateAdmin(admin.ModelAdmin):
     list_display = ("broadcast_company", "latest_update")
 
+
 # Register your models here.
 admin.site.register(MovieSchedule, MovieScheduleAdmin)
 admin.site.register(LatestUpdate, LatestUpdateAdmin)

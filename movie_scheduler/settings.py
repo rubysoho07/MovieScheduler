@@ -126,9 +126,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-# Celery
-CELERY_IMPORTS = ("scheduler_core.tasks",)
-
 # Settings related with sending email.
 
 EMAIL_HOST = str(os.environ.get("EMAIL_HOST"))
