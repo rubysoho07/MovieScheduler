@@ -1,12 +1,8 @@
-amqp
-billiard
 dj-database-url
 Django
 gunicorn
-kombu
 psycopg2-binary
 pytz
 requests
-vine
 whitenoise
 zappa
