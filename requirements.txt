@@ -4,9 +4,9 @@ dj-database-url
 Django
 gunicorn
 kombu
-newrelic
 psycopg2-binary
 pytz
 requests
 vine
 whitenoise
+zappa
