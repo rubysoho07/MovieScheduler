@@ -4,5 +4,5 @@ gunicorn
 psycopg2-binary
 pytz
 requests
-whitenoise
+django-storages
 zappa
