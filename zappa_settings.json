@@ -1,0 +1,21 @@
+{
+    "production": {
+        "aws_region": "ap-northeast-2",
+        "django_settings": "movie_scheduler.settings",
+        "profile_name": "default",
+        "project_name": "moviescheduler",
+        "runtime": "python3.7",
+        "s3_bucket": "moviescheduler-deployment",
+        "environment_variables": {
+            "AWS_S3_REGION_NAME": "ap-northeast-2"
+        },
+        "remote_env": "s3://moviescheduler-deployment/environment.json",
+        "vpc_config": {
+            "SubnetIds": ["subnet-019ad6d70a5041388", "subnet-03a707a8c30952378"],
+            "SecurityGroupIds": ["sg-0bf185eb024b72f38"]
+        },
+        "keep_warm": false,
+        "timeout_seconds": 240,
+        "memory_size": 2048
+    }
+}
