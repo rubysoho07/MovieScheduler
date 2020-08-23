@@ -75,7 +75,7 @@
 		<!-- Footer -->
 		<div class="footer">
             <div class="container">
-			2017 April Station Lab(Yungon Park). All rights reserved. |
+			2017~<span id="year"></span> April Station Lab(Yungon Park). All rights reserved. |
 			<a href="{% url 'license' %}">LICENSE</a>
             </div>
 		</div>
@@ -86,4 +86,8 @@
 		{% block additional_script %}
 		{% endblock %}
 	</body>
+
+    <script>
+        document.getElementById("year").innerHTML = (new Date().getFullYear()).toString();
+    </script>
 </html>
