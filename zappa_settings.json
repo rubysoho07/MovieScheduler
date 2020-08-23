@@ -16,6 +16,7 @@
         },
         "keep_warm": false,
         "timeout_seconds": 240,
-        "memory_size": 2048
+        "memory_size": 2048,
+        "cors": true
     }
 }
