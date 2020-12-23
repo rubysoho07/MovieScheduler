@@ -59,6 +59,9 @@ body {
   border-bottom: solid black 1px;
   padding-top: 5px;
 }
+.table-header a {
+  color: white;
+}
 .table-header.hour {
   width: 30px;
   clear: both;

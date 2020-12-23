@@ -39,7 +39,13 @@ Movie Scheduler | {{ day }}
         <div class="table-header hour">H</div>
         <div class="table-header hour" style="position: absolute;">H</div>
         {% for bc in bc_list %}
-            <div class="table-header broadcast_{{ bc.id }}">{{ bc.bc_name }}</div>
+            <div class="table-header broadcast_{{ bc.id }}">
+                {% if bc.schedule_url is None %}
+                    {{ bc.bc_name }}
+                {% else %}
+                    <a class="" href="{{ bc.schedule_url }}" target="_blank">{{ bc.bc_name }}</a>
+                {% endif %}
+            </div>
         {% endfor %}
         <!-- Fix hour string. -->
         <div class="hour-fixed">
