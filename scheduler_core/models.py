@@ -6,6 +6,7 @@ class BroadcastCompany(models.Model):
     """Information of broadcast company"""
 
     bc_name = models.CharField(max_length=100, unique=True)
+    schedule_url = models.CharField(max_length=400, default=None, null=True)
 
     def __str__(self):
         return self.bc_name
