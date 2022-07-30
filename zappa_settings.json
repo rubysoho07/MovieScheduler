@@ -4,7 +4,7 @@
         "django_settings": "movie_scheduler.settings",
         "profile_name": "default",
         "project_name": "moviescheduler",
-        "runtime": "python3.7",
+        "runtime": "python3.9",
         "s3_bucket": "moviescheduler-deployment",
         "environment_variables": {
             "AWS_S3_REGION_NAME": "ap-northeast-2"
